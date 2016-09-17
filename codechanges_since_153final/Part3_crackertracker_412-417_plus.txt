@@ -1,0 +1,483 @@
+##############################################################
+## MOD Title: Update CrackerTracker v4.1.3 to v4.1.7
+## MOD Author: CBACK < webmaster@cback.de > (Christian Knerr) http://www.cback.de
+##############################################################
+## Before Adding This MOD To Your Forum, You Should Back Up All Files Related To This MOD
+##############################################################
+#
+#-----[ OPEN ]------------------------------------------
+#
+common.php
+
+#
+#-----[ FIND AND DELETE ]------------------------------------------
+#
+//
+// CBACK.de CrackerTracker
+// Worm&Exploit Protection Engine
+//
+include($phpbb_root_path . "ctracker/ct_security." . $phpEx);
+
+
+#
+#-----[ FIND ]------------------------------------------
+#
+// PHP5 with register_long_arrays off?
+if (@phpversion() >= '5.0.0' && (!@ini_get('register_long_arrays') || @ini_get('register_long_arrays') == '0' || strtolower(@ini_get('register_long_arrays')) == 'off'))
+{
+	$HTTP_POST_VARS = $_POST;
+	$HTTP_GET_VARS = $_GET;
+	$HTTP_SERVER_VARS = $_SERVER;
+	$HTTP_COOKIE_VARS = $_COOKIE;
+	$HTTP_ENV_VARS = $_ENV;
+	$HTTP_POST_FILES = $_FILES;
+
+	// _SESSION is the only superglobal which is conditionally set
+	if (isset($_SESSION))
+	{
+		$HTTP_SESSION_VARS = $_SESSION;
+	}
+}
+
+#
+#-----[ AFTER, ADD ]------------------------------------------
+#
+//
+// CBACK.de CrackerTracker
+// Worm&Exploit Protection Engine
+//
+include($phpbb_root_path . "ctracker/ct_security." . $phpEx);
+
+
+#
+#-----[ OPEN ]------------------------------------------
+#
+includes/page_tail.php
+
+
+#
+#-----[ FIND ]------------------------------------------
+#
+//
+// CBACK.de CrackerTracker
+// Footer Parser and Counter
+//
+include($phpbb_root_path . 'ctracker/ct_footer.'.$phpEx);
+
+
+#
+#-----[ REPLACE WITH ]------------------------------------------
+#
+//
+// CBACK.de CrackerTracker
+//
+include($phpbb_root_path . 'ctracker/ct_footer.'.$phpEx);
+
+
+#
+#-----[ OPEN ]------------------------------------------
+#
+search.php
+
+
+#
+#-----[ FIND ]------------------------------------------
+#
+
+//
+// CBACK CrackerTracker Search Flood Protection
+//
+if(($userdata['ct_searchtime'] > time()) and (!empty($_GET['search_id']) || isset($_POST['search_id']) || isset($_GET['search_keywords']) || isset($_POST['show_results'])))
+{
+	$waittime = 0;
+	$waittime = $userdata['ct_searchtime'] - time();
+	$waitmsg  = '';
+	$waitmsg  = sprintf($lang['ct_forum_sfl'], $ctracker_config['searchtime'], $waittime);
+	
+	if($userdata['username'] == 'Anonymous')
+	{
+		if ($is_ajax)
+		{
+			$result_ar = array(
+				'search_id' => 0,
+				'results' => 0,
+				'keywords' => ''
+			);
+			AJAX_message_die($result_ar);
+		}
+		else
+		{
+			message_die(GENERAL_MESSAGE, $waitmsg);
+		}
+	}
+	else
+	{
+		$nusu = 0;
+		$nusu = $userdata['ct_searchcount'];
+		$sql = "UPDATE " . USERS_TABLE . " SET ct_searchcount = " . ($nusu + 1) . " WHERE username = '" . $userdata['username'] . "'";
+		$db->sql_query($sql);
+		
+		if($userdata['ct_searchcount'] >= $ctracker_config['maxsearch'] && $userdata['ct_searchtime'] > time())
+		{
+			if($userdata['ct_searchcount'] == $ctracker_config['maxsearch'])
+			{
+				$stime = time() + $ctracker_config['searchtime'];
+				$sql = "UPDATE " . USERS_TABLE . " SET ct_searchtime = " . $stime . " WHERE username = '" . $userdata['username'] . "'";
+				$db->sql_query($sql);
+			}
+	
+			if ($is_ajax)
+			{
+				$result_ar = array(
+					'search_id' => 0,
+					'results' => 0,
+					'keywords' => ''
+				);
+				AJAX_message_die($result_ar);
+			}
+			else
+			{
+				message_die(GENERAL_MESSAGE, $waitmsg);
+			}
+		}
+	}
+}
+
+
+#
+#-----[ REPLACE WITH ]------------------------------------------
+#
+//
+// CBACK CrackerTracker Search Flood Protection
+//
+if( ( $userdata['ct_searchtime'] > time() ) && ( !empty($_GET['search_id']) || isset($_POST['search_id']) || isset($_GET['search_keywords']) || isset($_POST['show_results']) ) )
+{
+	$waittime = 0;
+	$waittime = $userdata['ct_searchtime'] - time();
+	$waitmsg  = '';
+	$waitmsg  = sprintf($lang['ct_forum_sfl'], $ctracker_config['searchtime'], $waittime);
+	
+	if($userdata['user_id'] == ANONYMOUS)
+	{
+		if ($is_ajax)
+		{
+			$result_ar = array(
+				'search_id' => 0,
+				'results' => 0,
+				'keywords' => ''
+			);
+			AJAX_message_die($result_ar);
+		}
+		else
+		{
+			message_die(GENERAL_MESSAGE, $waitmsg);
+		}
+	}
+	else
+	{
+		$sql = "UPDATE " . USERS_TABLE . " SET ct_searchcount = ct_searchcount + 1 WHERE user_id = " . $userdata['user_id'];
+		if( !($result = $db->sql_query($sql)) )
+		{
+			message_die(CRITICAL_ERROR, "Could not perform Database operation", "", __LINE__, __FILE__, $sql);
+		}
+	}	
+		
+    if($userdata['ct_searchcount'] >= $ctracker_config['maxsearch'] && $userdata['ct_searchtime'] > time())
+    {
+		if($userdata['ct_searchcount'] == $ctracker_config['maxsearch'])
+		{
+			$stime = time() + $ctracker_config['searchtime'];
+			$sql = "UPDATE " . USERS_TABLE . " SET ct_searchtime = " . $stime . " WHERE user_id = " . $userdata['user_id'];
+			if( !$db->sql_query($sql))
+			{
+				message_die(CRITICAL_ERROR, "Could not perform Database operation", "", __LINE__, __FILE__, $sql);
+			}
+			
+			if ($is_ajax)
+			{
+				$result_ar = array(
+					'search_id' => 0,
+					'results' => 0,
+					'keywords' => ''
+				);
+				AJAX_message_die($result_ar);
+			}
+			else
+			{
+				message_die(GENERAL_MESSAGE, $waitmsg);
+			}
+		}
+	}
+}
+//
+// CBACK CrackerTracker Search Flood Protection
+//
+
+
+#
+#-----[ OPEN ]------------------------------------------
+#
+includes/usercp_register.php
+
+
+#
+#-----[ FIND ]------------------------------------------
+#
+            // CBACK CrackerTracker Register Flood Protection
+            $stime = time() + $ctracker_config['regtime'];
+            $sql = "UPDATE " . CTRACK . " SET value = " . $stime . " WHERE name = 'lastreg'";
+    	    $db->sql_query($sql);
+
+            if(!empty($HTTP_SERVER_VARS['REMOTE_ADDR']))
+            {
+	          $sql = "UPDATE " . CTRACK . " SET value = '" . $HTTP_SERVER_VARS['REMOTE_ADDR'] . "' WHERE name = 'lastreg_ip'";
+              $db->sql_query($sql);
+            }
+            // END CBACK CrackerTracker Register Flood Protection
+
+
+#
+#-----[ REPLACE WITH ]------------------------------------------
+#
+            // CBACK CrackerTracker Register Flood Protection
+            $stime = time() + $ctracker_config['regtime'];
+            $sql = "UPDATE " . CTRACK . " SET value = " . $stime . " WHERE name = 'lastreg'";
+    	    $db->sql_query($sql);
+
+            if(!empty($HTTP_SERVER_VARS['REMOTE_ADDR']))
+            {
+	          $sql = "UPDATE " . CTRACK . " SET value = '" . $HTTP_SERVER_VARS['REMOTE_ADDR'] . "' WHERE name = 'lastreg_ip'";
+
+  	    	  if( !$db->sql_query($sql))
+  	    	  {
+	      	message_die(CRITICAL_ERROR, "Could not perform Database operation", "", __LINE__, __FILE__, $sql);
+          	  }
+            }
+            // END CBACK CrackerTracker Register Flood Protection
+
+
+#
+#-----[ OPEN ]------------------------------------------
+#
+includes/functions_post.php
+
+
+#
+#-----[ FIND ]------------------------------------------
+#
+    //
+    // CBACK CrackerTracker Spammer Protection Engine
+    //
+    $ctinfomeldung = '';
+    if(($mode == 'newtopic' || $mode == 'reply') and ($ctracker_config['floodprot'] == 1))
+    {
+      if($userdata['user_level'] == 0 && $userdata['username'] != 'Anonymous')
+      {
+        if($userdata['ct_posttime'] >= time())
+        {
+          if($userdata['ct_postcount'] > $ctracker_config['postintime'])
+          {
+            if($ctracker_config['autoban'] == 1)
+            {
+              ct_filllog();
+              $sql = "INSERT INTO " . BANLIST_TABLE . "( `ban_id` , `ban_userid` , `ban_ip` , `ban_email` ) VALUES ('', '" . $userdata['user_id'] . "', '', NULL);";
+    	      $db->sql_query($sql);
+              if( $userdata['session_logged_in'] )
+		      {
+			    session_end($userdata['session_id'], $userdata['user_id']);
+		      }
+            }
+            else
+            {
+              ct_filllog();
+              $sql = "UPDATE " . USERS_TABLE . " SET user_active = 0 WHERE username = '" . $userdata['username'] . "'";
+    	      $db->sql_query($sql);
+		      if( $userdata['session_logged_in'] )
+		      {
+			    session_end($userdata['session_id'], $userdata['user_id']);
+		      }
+            }
+
+            message_die(GENERAL_MESSAGE, $lang['ct_forum_blo']);
+          }
+          else if($userdata['ct_postcount'] == $ctracker_config['postintime'])
+          {
+            $ctinfomeldung = sprintf($lang['ct_forum_wa'] . '<br><br>', $ctracker_config['posttimespan']);
+          }
+          else
+          {
+            $ctinfomeldung = '';
+          }
+
+    	  $nupo = 0;
+    	  $nupo = $userdata['ct_postcount'];
+          $sql = "UPDATE " . USERS_TABLE . " SET ct_postcount = " . ($nupo + 1) . " WHERE username = '" . $userdata['username'] . "'";
+          $db->sql_query($sql);
+        }
+        else
+        {
+          $stime = time() + $ctracker_config['posttimespan'];
+          $sql = "UPDATE " . USERS_TABLE . " SET ct_posttime = " . $stime . " WHERE username = '" . $userdata['username'] . "'";
+          $db->sql_query($sql);
+          $sql = "UPDATE " . USERS_TABLE . " SET ct_postcount = 2 WHERE username = '" . $userdata['username'] . "'";
+          $db->sql_query($sql);
+        }
+      }
+    }
+
+
+#
+#-----[ REPLACE WITH ]------------------------------------------
+#
+    //
+    // CBACK CrackerTracker Spammer Protection Engine
+    //
+    $ctinfomeldung = '';
+    if(($mode == 'newtopic' || $mode == 'reply') and ($ctracker_config['floodprot'] == 1))
+    {
+      if($userdata['user_level'] == 0 && $userdata['user_id'] != ANONYMOUS)
+      {
+        if($userdata['ct_posttime'] >= time())
+        {
+          if($userdata['ct_postcount'] > $ctracker_config['postintime'])
+          {
+            if($ctracker_config['autoban'] == 1)
+            {
+              ct_filllog();
+              $sql = "INSERT INTO " . BANLIST_TABLE . "( `ban_id` , `ban_userid` , `ban_ip` , `ban_email` ) VALUES ('', '" . $userdata['user_id'] . "', '', NULL);";
+
+  	    	    if( !$db->sql_query($sql))
+  	    	    {
+		      message_die(CRITICAL_ERROR, "Could not perform Database operation", "", __LINE__, __FILE__, $sql);
+	          }
+
+              if( $userdata['session_logged_in'] )
+		      {
+			    session_end($userdata['session_id'], $userdata['user_id']);
+		      }
+            }
+            else
+            {
+              ct_filllog();
+              $sql = "UPDATE " . USERS_TABLE . " SET user_active = 0 WHERE user_id = '" . $userdata['user_id'] . "'";
+  	    	  
+		  if( !$db->sql_query($sql))
+  	    	  {
+	      	message_die(CRITICAL_ERROR, "Could not perform Database operation", "", __LINE__, __FILE__, $sql);
+          	  }
+
+		      if( $userdata['session_logged_in'] )
+		      {
+			    session_end($userdata['session_id'], $userdata['user_id']);
+		      }
+            }
+
+            message_die(GENERAL_MESSAGE, $lang['ct_forum_blo']);
+          }
+          else if($userdata['ct_postcount'] == $ctracker_config['postintime'])
+          {
+            $ctinfomeldung = sprintf($lang['ct_forum_wa'] . '<br /><br />', $ctracker_config['posttimespan']);
+          }
+          else
+          {
+            $ctinfomeldung = '';
+          }
+
+          $sql = "UPDATE " . USERS_TABLE . " SET ct_postcount = ct_postcount + 1 WHERE user_id = '" . $userdata['user_id'] . "'";
+  	    if( !$db->sql_query($sql))
+  	    {
+	      message_die(CRITICAL_ERROR, "Could not perform Database operation", "", __LINE__, __FILE__, $sql);
+          }
+        }
+        else
+        {
+          $stime = time() + $ctracker_config['posttimespan'];
+          $sql = "UPDATE " . USERS_TABLE . " SET ct_posttime = " . $stime . " WHERE user_id = '" . $userdata['user_id'] . "'";
+  	    if( !$db->sql_query($sql))
+  	    {
+	      message_die(CRITICAL_ERROR, "Could not perform Database operation", "", __LINE__, __FILE__, $sql);
+          }
+	    $sql = "UPDATE " . USERS_TABLE . " SET ct_postcount = 2 WHERE user_id = '" . $userdata['user_id'] . "'";
+  	    if( !$db->sql_query($sql))
+  	    {
+	      message_die(CRITICAL_ERROR, "Could not perform Database operation", "", __LINE__, __FILE__, $sql);
+          }
+        }
+      }
+    }
+
+
+#
+#-----[ OPEN ]------------------------------------------
+#
+  login.php
+
+
+#
+#-----[ FIND ]------------------------------------------
+#
+					$db->sql_query('UPDATE ' . USERS_TABLE . ' SET ct_logintry = 0 WHERE user_id = ' . $row['user_id']);
+
+
+#
+#-----[ REPLACE WITH ]------------------------------------------
+#
+					$sql = 'UPDATE ' . USERS_TABLE . ' SET ct_logintry = 0 WHERE user_id = ' . $row['user_id'];
+  	    				if( !$db->sql_query($sql))
+  	    				{
+	    				  message_die(CRITICAL_ERROR, "Could not perform Database operation", "", __LINE__, __FILE__, $sql);
+          				}
+
+
+#
+#-----[ FIND ]------------------------------------------
+#
+					if ($row['user_id'] != ANONYMOUS)
+					{
+						$sql = 'UPDATE ' . USERS_TABLE . '
+							SET ct_logintry = 1
+							WHERE user_id = ' . $row['user_id'];
+						$db->sql_query($sql);
+					}
+
+
+#
+#-----[ REPLACE WITH ]------------------------------------------
+#
+					if ($row['user_id'] != ANONYMOUS)
+					{
+						$sql = 'UPDATE ' . USERS_TABLE . '
+							SET ct_logintry = 1
+							WHERE user_id = ' . $row['user_id'];
+  	    					
+						if( !$db->sql_query($sql))
+  	    					{
+	    					  message_die(CRITICAL_ERROR, "Could not perform Database operation", "", __LINE__, __FILE__, $sql);
+          					}
+					}
+
+
+#
+#-----[ FIND ]------------------------------------------
+#
+
+'S_HIDDEN_FIELDS' => $s_hidden_fields . $hidden_form_fields)
+
+
+#
+#-----[ REPLACE WITH ]------------------------------------------
+#
+
+'S_HIDDEN_FIELDS' => $s_hidden_fields . $hidden_form_fields )
+
+
+#
+#-----[ EXECUTE ]------------------------------------------
+#
+  
+Please Execute now the commands from the File "Part4_phpbb-2.0.20_to_2.0.21.txt"
+
+#
+#-----[ SAVE/CLOSE ALL FILES ]------------------------------------------
+#
+# EoM

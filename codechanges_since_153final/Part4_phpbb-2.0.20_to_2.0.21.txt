@@ -1,0 +1,1085 @@
+############################################################## 
+## MOD Title: phpBB 2.0.20 to phpBB 2.0.21 Code Changes
+## MOD Author: Acyd Burn < N/A > (Meik Sievertsen) N/A 
+##             Titus 
+## MOD Description: 
+##		
+##		
+##			These are the Changes from phpBB 2.0.20 to phpBB 2.0.21 summed up into a little
+##		Mod. This might be very helpful if you want to update your Board and have
+##		installed a bunch of Mods. Then it's normally easier to apply the Code Changes
+##		than to install all Mods again.
+##		
+##			When you find a 'AFTER, ADD'-Statement, the Code have to be added after the
+##		last line quoted in the 'FIND'-Statement.
+##			When you find a 'BEFORE, ADD'-Statement, the Code have to be added before the
+##		first line quoted in the 'FIND'-Statement.
+##			When you find a 'REPLACE WITH'-Statement, the Code quoted in the
+##		'FIND'-Statement have to be replaced completely with the quoted Code in the
+##		'REPLACE WITH'-Statement.
+##		
+##			When you find more than one 'FIND'-Statement it just means that you go down the
+##		code within the order of the 'FIND'-Statements, if you found the lines for the
+##		first 'FIND'-Statement, you continue to search the lines for the second
+##		'FIND'-Statement. The last 'FIND'-Statement includes the codeblock to work
+##		with.
+##		
+##			For a comprehensive explanation about installing MODs, please visit this url:
+##		http://www.phpbb.com/kb/article.php?article_id=150
+##		
+##			After you have finished this tutorial, you have to upload the
+##		install/update_to_latest.php file, execute it and then delete it from your
+##		webspace.
+##		
+##			
+##		
+## MOD Version: 1.0.1 
+## 
+## Installation Level: Easy
+## Installation Time: 45 Minutes 
+## Files To Edit: 
+##		admin/admin_ranks.php
+##		admin/admin_smilies.php
+##		admin/admin_styles.php
+##		admin/admin_words.php
+##		common.php
+##		includes/functions.php
+##		includes/functions_post.php
+##		includes/sessions.php
+##		includes/usercp_avatar.php
+##		includes/usercp_confirm.php
+##		includes/usercp_register.php
+##		login.php
+##		privmsg.php
+##		profile.php
+##		search.php
+##		viewtopic.php
+##
+## Included Files: install/update_to_latest.php
+## License: http://opensource.org/licenses/gpl-license.php GNU General Public License v2 
+############################################################## 
+## For security purposes, please check: http://www.phpbb.com/mods/ 
+## for the latest version of this MOD. Although MODs are checked 
+## before being allowed in the MODs Database there is no guarantee 
+## that there are no security problems within the MOD. No support 
+## will be given for MODs not found within the MODs Database which 
+## can be found at http://www.phpbb.com/mods/ 
+############################################################## 
+## Author Notes: 
+## 
+##	
+############################################################## 
+## MOD History: 
+## 
+##   2006-06-19 - Version 1.0.1 
+##      - ACP-confirm-redirect fixed 
+## 
+##   2006-06-01 - Version 1.0.0 
+##      - first release 
+## 
+############################################################## 
+## Before Adding This MOD To Your Forum, You Should Back Up All Files Related To This MOD 
+############################################################## 
+
+# 
+#-----[ OPEN ]--------------------------------------------- 
+# 
+admin/admin_ranks.php
+
+#
+#-----[ FIND ]---------------------------------------------
+# Line 39
+require('./pagestart.' . $phpEx);
+
+#
+#-----[ AFTER, ADD ]---------------------------------------------
+#
+if (isset($HTTP_POST_VARS['cancel']))
+{
+	redirect('admin/' . append_sid("admin_ranks.$phpEx", true));
+}
+
+# 
+#-----[ OPEN ]--------------------------------------------- 
+# 
+admin/admin_smilies.php
+
+#
+#-----[ FIND ]---------------------------------------------
+# Line 55
+require('./pagestart.' . $phpEx);
+
+#
+#-----[ AFTER, ADD ]---------------------------------------------
+#
+if (isset($HTTP_POST_VARS['cancel']))
+{
+	redirect('admin/' . append_sid("admin_smilies.$phpEx", true));
+}
+
+# 
+#-----[ OPEN ]--------------------------------------------- 
+# 
+admin/admin_styles.php
+
+#
+#-----[ FIND ]---------------------------------------------
+# Line 838
+			$template->set_filenames(array(
+				"confirm" => "confirm_body.tpl")
+			);
+
+#
+#-----[ REPLACE WITH ]---------------------------------------------
+#
+			$template->set_filenames(array(
+				"confirm" => "admin/confirm_body.tpl")
+			);
+
+# 
+#-----[ OPEN ]--------------------------------------------- 
+# 
+admin/admin_words.php
+
+#
+#-----[ FIND ]---------------------------------------------
+# Line 40
+require('./pagestart.' . $phpEx);
+
+#
+#-----[ AFTER, ADD ]---------------------------------------------
+#
+if (isset($HTTP_POST_VARS['cancel']))
+{
+	redirect('admin/' . append_sid("admin_words.$phpEx", true));
+}
+
+# 
+#-----[ OPEN ]--------------------------------------------- 
+# 
+common.php
+
+#
+#-----[ FIND ]---------------------------------------------
+# Line 80
+		if (!in_array($var, $not_unset))
+		{
+			unset($$var);
+		}
+
+#
+#-----[ REPLACE WITH ]---------------------------------------------
+#
+		if (in_array($var, $not_unset))
+		{
+			die('Hacking attempt!');
+		}
+		unset($$var);
+
+# 
+#-----[ OPEN ]--------------------------------------------- 
+# 
+includes/functions.php
+
+#
+#-----[ FIND ]---------------------------------------------
+# Line 171
+	return substr($val, 16);
+
+#
+#-----[ REPLACE WITH ]---------------------------------------------
+#
+	return substr($val, 4, 16);
+
+#
+#-----[ FIND ]---------------------------------------------
+# Line 307
+	global $template, $lang, $phpEx, $phpbb_root_path;
+	global $nav_links;
+	//-- mod : mods settings ---------------------------------------------------------------------------
+//-- add
+	global $db, $mods, $list_yes_no, $userdata;
+
+#
+#-----[ REPLACE WITH ]---------------------------------------------
+#
+	global $template, $lang, $phpEx, $phpbb_root_path, $db;
+	global $nav_links;
+	//-- mod : mods settings ---------------------------------------------------------------------------
+//-- add
+	global $mods, $list_yes_no, $userdata;
+
+#
+#-----[ FIND ]---------------------------------------------
+# Line 314
+			$board_config['default_lang'] = $userdata['user_lang'];
+
+#
+#-----[ REPLACE WITH ]---------------------------------------------
+#
+			$default_lang = phpbb_ltrim(basename(phpbb_rtrim($userdata['user_lang'])), "'");
+
+#
+#-----[ FIND ]---------------------------------------------
+# Line 327
+
+	if ( !file_exists(@phpbb_realpath($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/lang_main.'.$phpEx)) )
+	{
+		$board_config['default_lang'] = 'english';
+	}
+
+#
+#-----[ REPLACE WITH ]---------------------------------------------
+#
+	else
+	{
+		$default_lang = phpbb_ltrim(basename(phpbb_rtrim($board_config['default_lang'])), "'");
+	}
+
+	if ( !file_exists(@phpbb_realpath($phpbb_root_path . 'language/lang_' . $default_lang . '/lang_main.'.$phpEx)) )
+	{
+		if ( $userdata['user_id'] != ANONYMOUS )
+		{
+			// For logged in users, try the board default language next
+			$default_lang = phpbb_ltrim(basename(phpbb_rtrim($board_config['default_lang'])), "'");
+		}
+		else
+		{
+			// For guests it means the default language is not present, try english
+			// This is a long shot since it means serious errors in the setup to reach here,
+			// but english is part of a new install so it's worth us trying
+			$default_lang = 'english';
+		}
+
+		if ( !file_exists(@phpbb_realpath($phpbb_root_path . 'language/lang_' . $default_lang . '/lang_main.'.$phpEx)) )
+		{
+			message_die(CRITICAL_ERROR, 'Could not locate valid language pack');
+		}
+	}
+
+	// If we've had to change the value in any way then let's write it back to the database
+	// before we go any further since it means there is something wrong with it
+	if ( $userdata['user_id'] != ANONYMOUS && $userdata['user_lang'] !== $default_lang )
+	{
+		$sql = 'UPDATE ' . USERS_TABLE . "
+			SET user_lang = '" . $default_lang . "'
+			WHERE user_lang = '" . $userdata['user_lang'] . "'";
+
+		if ( !($result = $db->sql_query($sql)) )
+		{
+			message_die(CRITICAL_ERROR, 'Could not update user language info');
+		}
+
+		$userdata['user_lang'] = $default_lang;
+	}
+	elseif ( $userdata['user_id'] === ANONYMOUS && $board_config['default_lang'] !== $default_lang )
+	{
+		$sql = 'UPDATE ' . CONFIG_TABLE . "
+			SET config_value = '" . $default_lang . "'
+			WHERE config_name = 'default_lang'";
+
+		if ( !($result = $db->sql_query($sql)) )
+		{
+			message_die(CRITICAL_ERROR, 'Could not update user language info');
+		}
+
+	}
+
+	$board_config['default_lang'] = $default_lang;
+
+#
+#-----[ FIND ]---------------------------------------------
+# Line 441
+	$sql = "SELECT *
+		FROM " . THEMES_TABLE . "
+		WHERE themes_id = $style";
+
+#
+#-----[ REPLACE WITH ]---------------------------------------------
+#
+	$sql = 'SELECT *
+		FROM ' . THEMES_TABLE . '
+		WHERE themes_id = ' . (int) $style;
+
+#
+#-----[ FIND ]---------------------------------------------
+# Line 458
+				WHERE themes_id = ' . $board_config['default_style'];
+
+#
+#-----[ REPLACE WITH ]---------------------------------------------
+#
+				WHERE themes_id = ' . (int) $board_config['default_style'];
+
+#
+#-----[ FIND ]---------------------------------------------
+# Line 469
+					SET user_style = ' . $board_config['default_style'] . "
+
+#
+#-----[ REPLACE WITH ]---------------------------------------------
+#
+					SET user_style = ' . (int) $board_config['default_style'] . "
+
+# 
+#-----[ OPEN ]--------------------------------------------- 
+# 
+includes/functions_post.php
+
+#
+#-----[ FIND ]---------------------------------------------
+# Line 59
+			$message .= htmlspecialchars($part) . clean_html($tag);
+		}
+
+		$message = addslashes($message);
+
+#
+#-----[ REPLACE WITH ]---------------------------------------------
+#
+			$message .= preg_replace($html_entities_match, $html_entities_replace, $part) . clean_html($tag);
+		}
+
+		$message = addslashes($message);
+		$message = str_replace('&quot;', '\&quot;', $message);
+
+#
+#-----[ FIND ]---------------------------------------------
+# Line 411
+	$sql = "UPDATE " . FORUMS_TABLE . " SET 
+		$forum_update_sql 
+		WHERE forum_id = $forum_id";
+	if (!$db->sql_query($sql))
+	{
+		message_die(GENERAL_ERROR, 'Error in posting', '', __LINE__, __FILE__, $sql);
+	}
+
+#
+#-----[ REPLACE WITH ]---------------------------------------------
+#
+	if ($mode != 'poll_delete')
+	{
+		$sql = "UPDATE " . FORUMS_TABLE . " SET 
+			$forum_update_sql 
+			WHERE forum_id = $forum_id";
+		if (!$db->sql_query($sql))
+		{
+			message_die(GENERAL_ERROR, 'Error in posting', '', __LINE__, __FILE__, $sql);
+		}
+	}
+
+# 
+#-----[ OPEN ]--------------------------------------------- 
+# 
+includes/sessions.php
+
+#
+#-----[ FIND ]---------------------------------------------
+# Line 365
+
+					setcookie($cookiename . '_data', serialize($sessiondata), $current_time + 31536000, $cookiepath, $cookiedomain, $cookiesecure);
+					setcookie($cookiename . '_sid', $session_id, 0, $cookiepath, $cookiedomain, $cookiesecure);
+				}
+
+
+#
+#-----[ AFTER, ADD ]---------------------------------------------
+#
+				// Add the session_key to the userdata array if it is set
+				if ( isset($sessiondata['autologinid']) && $sessiondata['autologinid'] != '' )
+				{
+					$userdata['session_key'] = $sessiondata['autologinid'];
+				}
+
+
+#
+#-----[ FIND ]---------------------------------------------
+# Line 505
+function session_reset_keys($user_id, $user_ip)
+{
+	global $db, $userdata;
+
+#
+#-----[ REPLACE WITH ]---------------------------------------------
+#
+function session_reset_keys($user_id, $user_ip)
+{
+	global $db, $userdata, $board_config;
+
+#
+#-----[ FIND ]---------------------------------------------
+# Line 544
+		// And now rebuild the cookie
+		$sessiondata['userid'] = $user_id;
+		$sessiondata['autologinid'] = $autologin_id;
+
+#
+#-----[ REPLACE WITH ]---------------------------------------------
+#
+		// And now rebuild the cookie
+		$sessiondata['userid'] = $user_id;
+		$sessiondata['autologinid'] = $auto_login_key;
+
+# 
+#-----[ OPEN ]--------------------------------------------- 
+# 
+includes/usercp_avatar.php
+
+#
+#-----[ FIND ]---------------------------------------------
+# Line 120
+	if ( $avatar_mode == 'remote' && preg_match('/^(http:\/\/)?([\w\-\.]+)\:?([0-9]*)\/(.*)$/', $avatar_filename, $url_ary) )
+
+#
+#-----[ REPLACE WITH ]---------------------------------------------
+#
+	if ( $avatar_mode == 'remote' && preg_match('/^(http:\/\/)?([\w\-\.]+)\:?([0-9]*)\/([^ \?&=\#\"\n\r\t<]*?(\.(jpg|jpeg|gif|png)))$/', $avatar_filename, $url_ary) )
+
+# 
+#-----[ OPEN ]--------------------------------------------- 
+# on PLUS with Adv-Captcha not require
+# 
+includes/usercp_confirm.php
+
+#
+#-----[ FIND ]---------------------------------------------
+# Line 64
+// If we can we will generate a single filtered png else we will have to simply
+// output six seperate original pngs ... first way is preferable!
+if (@extension_loaded('zlib'))
+{
+	$_png = define_filtered_pngs();
+
+	$total_width = 320;
+	$total_height = 50;
+	$img_height = 40;
+	$img_width = 0;
+	$l = 0;
+
+	list($usec, $sec) = explode(' ', microtime()); 
+	mt_srand($sec * $usec); 
+
+	$char_widths = array();
+	for ($i = 0; $i < strlen($code); $i++)
+	{
+		$char = $code{$i};
+
+		$width = mt_rand(0, 4);
+		$char_widths[] = $width;
+		$img_width += $_png[$char]['width'] - $width;
+	}
+
+	$offset_x = mt_rand(0, $total_width - $img_width);
+	$offset_y = mt_rand(0, $total_height - $img_height);
+
+	$image = '';
+	$hold_chars = array();
+	for ($i = 0; $i < $total_height; $i++)
+	{
+		$image .= chr(0);
+
+		if ($i > $offset_y && $i < $offset_y + $img_height)
+		{
+			$j = 0;
+
+			for ($k = 0; $k < $offset_x; $k++)
+			{
+				$image .= chr(mt_rand(140, 255));
+			}
+
+			for ($k = 0; $k < strlen($code); $k++)
+			{
+				$char = $code{$k};
+
+				if (empty($hold_chars[$char]))
+				{
+					$hold_chars[$char] = explode("\n", chunk_split(base64_decode($_png[$char]['data']), $_png[$char]['width'] + 1, "\n"));
+				}
+				$image .= randomise(substr($hold_chars[$char][$l], 1), $char_widths[$j]);
+				$j++;
+			}
+
+			for ($k = $offset_x + $img_width; $k < $total_width; $k++)
+			{
+				$image .= chr(mt_rand(140, 255));
+			}
+
+			$l++;
+		}
+		else
+		{
+			for ($k = 0; $k < $total_width; $k++)
+			{
+				$image .= chr(mt_rand(140, 255));
+			}
+		}
+
+	}
+	unset($hold);
+
+	$image = create_png(gzcompress($image), $total_width, $total_height);
+
+	// Output image
+	header('Content-Type: image/png');
+	header('Cache-control: no-cache, no-store');
+	echo $image;
+
+	unset($image);
+	unset($_png);
+	exit;
+
+}
+else
+{
+	$_png = define_raw_pngs();
+
+	$c = intval($HTTP_GET_VARS['c']);
+	$char = substr($code, $c - 1, 1);
+	
+	header('Content-Type: image/png');
+	header('Cache-control: no-cache, no-store');
+	echo base64_decode($_png[$char]);
+
+	unset($_png);
+	exit;
+}
+
+exit;
+
+#
+#-----[ REPLACE WITH ]---------------------------------------------
+#
+// We can we will generate a single filtered png 
+// Thanks to DavidMJ for emulating zlib within the code :)
+$_png = define_filtered_pngs();
+
+$total_width = 320;
+$total_height = 50;
+$img_height = 40;
+$img_width = 0;
+$l = 0;
+
+list($usec, $sec) = explode(' ', microtime()); 
+mt_srand($sec * $usec); 
+
+$char_widths = array();
+for ($i = 0; $i < strlen($code); $i++)
+{
+	$char = $code{$i};
+
+	$width = mt_rand(0, 4);
+	$char_widths[] = $width;
+	$img_width += $_png[$char]['width'] - $width;
+}
+
+$offset_x = mt_rand(0, $total_width - $img_width);
+$offset_y = mt_rand(0, $total_height - $img_height);
+
+$image = '';
+$hold_chars = array();
+for ($i = 0; $i < $total_height; $i++)
+{
+	$image .= chr(0);
+
+	if ($i > $offset_y && $i < $offset_y + $img_height)
+	{
+		$j = 0;
+
+		for ($k = 0; $k < $offset_x; $k++)
+		{
+			$image .= chr(mt_rand(140, 255));
+		}
+
+		for ($k = 0; $k < strlen($code); $k++)
+		{
+			$char = $code{$k};
+
+			if (empty($hold_chars[$char]))
+			{
+				$hold_chars[$char] = explode("\n", chunk_split(base64_decode($_png[$char]['data']), $_png[$char]['width'] + 1, "\n"));
+			}
+			$image .= randomise(substr($hold_chars[$char][$l], 1), $char_widths[$j]);
+			$j++;
+		}
+
+		for ($k = $offset_x + $img_width; $k < $total_width; $k++)
+		{
+			$image .= chr(mt_rand(140, 255));
+		}
+
+		$l++;
+	}
+	else
+	{
+		for ($k = 0; $k < $total_width; $k++)
+		{
+			$image .= chr(mt_rand(140, 255));
+		}
+	}
+
+}
+unset($hold);
+
+$image = create_png($image, $total_width, $total_height);
+
+// Output image
+header('Content-Type: image/png');
+header('Cache-control: no-cache, no-store');
+echo $image;
+
+unset($image);
+unset($_png);
+exit;
+
+
+#
+#-----[ FIND ]---------------------------------------------
+# Line 198
+function create_png($gzimage, $width, $height)
+
+#
+#-----[ REPLACE WITH ]---------------------------------------------
+#
+function create_png($raw_image, $width, $height)
+
+#
+#-----[ FIND ]---------------------------------------------
+# Line 202
+	// IDAT
+	$image .= png_chunk(strlen($gzimage), 'IDAT', $gzimage);
+
+#
+#-----[ REPLACE WITH ]---------------------------------------------
+#
+
+	if (@extension_loaded('zlib'))
+	{
+		$raw_image = gzcompress($raw_image);
+		$length = strlen($raw_image);
+	}
+	else
+	{
+		// The total length of this image, uncompressed, is just a calculation of pixels
+		$length = ($width + 1) * $height;
+
+		// Adler-32 hash generation
+		// Optimized Adler-32 loop ported from the GNU Classpath project
+		$temp_length = $length;
+		$s1 = 1;
+		$s2 = $index = 0;
+
+		while ($temp_length > 0)
+		{
+			// We can defer the modulo operation:
+			// s1 maximally grows from 65521 to 65521 + 255 * 3800
+			// s2 maximally grows by 3800 * median(s1) = 2090079800 < 2^31
+			$substract_value = ($temp_length < 3800) ? $temp_length : 3800;
+			$temp_length -= $substract_value;
+
+			while (--$substract_value >= 0)
+			{
+				$s1 += ord($raw_image[$index]);
+				$s2 += $s1;
+
+				$index++;
+			}
+
+			$s1 %= 65521;
+			$s2 %= 65521;
+		}
+		$adler_hash = pack('N', ($s2 << 16) | $s1);
+
+		// This is the same thing as gzcompress($raw_image, 0) but does not need zlib
+		$raw_image = pack('C3v2', 0x78, 0x01, 0x01, $length, ~$length) . $raw_image . $adler_hash;
+
+		// The Zlib header + Adler hash make us add on 11
+		$length += 11;
+	}
+
+	// IDAT
+	$image .= png_chunk($length, 'IDAT', $raw_image);
+
+# 
+#-----[ OPEN ]--------------------------------------------- 
+# on PLUS with Adv-Captcha not require
+# 
+includes/usercp_register.php
+
+#
+#-----[ FIND ]---------------------------------------------
+# Line 989
+		$code = strtoupper(str_replace('0', 'o', substr($code, 6)));
+
+#
+#-----[ REPLACE WITH ]---------------------------------------------
+#
+		$code = substr(str_replace('0', 'Z', strtoupper(base_convert($code, 16, 35))), 2, 6);
+
+#
+#-----[ FIND ]---------------------------------------------
+# Line 1002
+		$confirm_image = (@extension_loaded('zlib')) ? '<img src="' . append_sid("profile.$phpEx?mode=confirm&amp;id=$confirm_id") . '" alt="" title="" />' : '<img src="' . append_sid("profile.$phpEx?mode=confirm&amp;id=$confirm_id&amp;c=1") . '" alt="" title="" /><img src="' . append_sid("profile.$phpEx?mode=confirm&amp;id=$confirm_id&amp;c=2") . '" alt="" title="" /><img src="' . append_sid("profile.$phpEx?mode=confirm&amp;id=$confirm_id&amp;c=3") . '" alt="" title="" /><img src="' . append_sid("profile.$phpEx?mode=confirm&amp;id=$confirm_id&amp;c=4") . '" alt="" title="" /><img src="' . append_sid("profile.$phpEx?mode=confirm&amp;id=$confirm_id&amp;c=5") . '" alt="" title="" /><img src="' . append_sid("profile.$phpEx?mode=confirm&amp;id=$confirm_id&amp;c=6") . '" alt="" title="" />';
+
+#
+#-----[ REPLACE WITH ]---------------------------------------------
+#
+		$confirm_image = '<img src="' . append_sid("profile.$phpEx?mode=confirm&amp;id=$confirm_id") . '" alt="" title="" />';
+
+# 
+#-----[ OPEN ]--------------------------------------------- 
+# 
+login.php
+
+#
+#-----[ FIND ]---------------------------------------------
+# Line 116
+				// Only store a failed login attempt for an active user - inactive users can't login even with a correct password
+				elseif( $row['user_active'] )
+				{
+					// Start add - Protect user account MOD
+					/*
+					// Save login tries and last login
+					if ($row['user_id'] != ANONYMOUS)
+					{
+						$sql = 'UPDATE ' . USERS_TABLE . '
+							SET user_login_tries = user_login_tries + 1, user_last_login_try = ' . time() . '
+							WHERE user_id = ' . $row['user_id'];
+						$db->sql_query($sql);
+					}
+					*/
+					// End add - Protect user account MOD
+					if ($row['user_id'] != ANONYMOUS)
+					{
+						$sql = 'UPDATE ' . USERS_TABLE . '
+							SET ct_logintry = 1
+							WHERE user_id = ' . $row['user_id'];
+						$db->sql_query($sql);
+					}
+
+					$redirect = ( !empty($_POST['redirect']) ) ? str_replace('&amp;', '&', htmlspecialchars($_POST['redirect'])) : '';
+					$redirect = str_replace('?', '&', $redirect);
+					
+					if (strstr(urldecode($redirect), "\n") || strstr(urldecode($redirect), "\r"))
+					{
+						message_die(GENERAL_ERROR, 'Tried to redirect to potentially insecure url.');
+					}
+					
+					$template->assign_vars(array(
+						'META' => "<meta http-equiv=\"refresh\" content=\"3;url=login.$phpEx?redirect=$redirect\">")
+					);
+					// Start add - Protect user account MOD
+					if ($row['user_active'] )
+					{
+						//count bad login
+						// block the user for X min
+						if (($row['user_badlogin']+1) % $board_config['max_login_error'])
+						{
+							$sql = "UPDATE " . USERS_TABLE . " SET user_badlogin=user_badlogin+1
+								WHERE username = '" . str_replace("\'", "''", $username) . "'";
+							if ( !($result = $db->sql_query($sql)) )
+							{
+								message_die(GENERAL_ERROR, 'Error updating bad login data'.$user_ip, '', __LINE__, __FILE__, $sql);
+							}
+						} else
+						{
+							$blocktime = ", user_block_by='$user_ip', user_blocktime='" . (time()+($board_config['block_time']*60)) . "'";
+							$sql = "UPDATE " . USERS_TABLE . " SET user_badlogin=user_badlogin+1 $blocktime
+								WHERE username = '" . str_replace("\'", "''", $username) . "'";
+							if ( !($result = $db->sql_query($sql)) )
+							{
+								message_die(GENERAL_ERROR, 'Error updating bad login data'.$user_ip, '', __LINE__, __FILE__, $sql);
+							}
+					
+							if ($row['user_email']  && $row['user_blocktime']<(time()-3600))
+							{
+								include($phpbb_root_path . 'includes/emailer.'.$phpEx); 
+								$server_name = trim($board_config['server_name']);
+								$emailer = new emailer($board_config['smtp_delivery']); 
+								$emailer->email_address($row['user_email']); 
+								$email_headers = "To: \"".$row['username']."\" <".$row['user_email']. ">\r\n"; 
+								$email_headers .= "From: \"".$board_config['sitename']."\" <".$board_config['board_email'].">\r\n"; 
+								$email_headers .= "X-AntiAbuse: Board servername - " . $server_name . "\r\n"; 
+								$email_headers .= "X-AntiAbuse: User IP - " . decode_ip($user_ip) . "\r\n"; 
+								$emailer->use_template('bad_login', $row['user_lang']);
+								$emailer->extra_headers($email_headers); 
+								$emailer->assign_vars(array( 
+									'USER' => '"'.$row['username'].'"',
+									'BLOCK_TIME' => $board_config['block_time'],
+									'BAD_LOGINS' => $row['user_badlogin']+1, 
+									'BLOCK_UNTIL' => create_date ($lang['Time_format'],time()+($board_config['block_time']*60),$row['user_timezone']),
+									'SITENAME' => $board_config['sitename'], 
+									'BOARD_EMAIL' => $board_config['board_email'])); 
+								$emailer->send(); 
+								$emailer->reset(); 
+							}
+						}
+					}
+					// End add - Protect user account MOD
+
+					$message = $lang['Error_login'] . '<br /><br />' . sprintf($lang['Click_return_login'], "<a href=\"login.$phpEx?redirect=$redirect\">", '</a>') . '<br /><br />' .  sprintf($lang['Click_return_index'], '<a href="' . append_sid("index.$phpEx") . '">', '</a>');
+
+					message_die(GENERAL_MESSAGE, $message);
+				}
+				// Start add - Protect user account MOD
+				} else
+				{
+					$message = (($lang['Error_login_tomutch'])?$lang['Error_login_tomutch']:$lang['Error_login']) . '<br /><br />' . sprintf($lang['Click_return_login'], '<a href="' . append_sid("login.$phpEx?redirect=$redirect") . '">', '</a>') . '<br /><br />' .  sprintf($lang['Click_return_index'], '<a href="' . append_sid("index.$phpEx") . '">', '</a>');
+					message_die(GENERAL_MESSAGE, $message);
+				}
+				// End add - Protect user account MOD
+
+			}
+		}
+		else
+
+#
+#-----[ REPLACE WITH ]---------------------------------------------
+#
+					// Only store a failed login attempt for an active user - inactive users can't login even with a correct password
+					elseif( $row['user_active'] )
+					{
+						// Start add - Protect user account MOD
+						/*
+						// Save login tries and last login
+						if ($row['user_id'] != ANONYMOUS)
+						{
+							$sql = 'UPDATE ' . USERS_TABLE . '
+								SET user_login_tries = user_login_tries + 1, user_last_login_try = ' . time() . '
+								WHERE user_id = ' . $row['user_id'];
+							$db->sql_query($sql);
+						}
+						*/
+						// End add - Protect user account MOD
+						if ($row['user_id'] != ANONYMOUS)
+						{
+							$sql = 'UPDATE ' . USERS_TABLE . '
+								SET ct_logintry = 1
+								WHERE user_id = ' . $row['user_id'];
+								
+							if( !$db->sql_query($sql))
+								{
+								  message_die(CRITICAL_ERROR, "Could not perform Database operation", "", __LINE__, __FILE__, $sql);
+								}
+						}
+	
+						// Start add - Protect user account MOD
+						//count bad login
+						// block the user for X min
+						$blocktime = '';
+						if (($row['user_badlogin']+1) % $board_config['max_login_error'])
+						{
+							$sql = "UPDATE " . USERS_TABLE . " SET user_badlogin=user_badlogin+1
+								WHERE username = '" . str_replace("\'", "''", $username) . "'";
+							if ( !($result = $db->sql_query($sql)) )
+							{
+								message_die(GENERAL_ERROR, 'Error updating bad login data'.$user_ip, '', __LINE__, __FILE__, $sql);
+							}
+						} else
+						{
+							$blocktime = ", user_block_by='$user_ip', user_blocktime='" . (time()+($board_config['block_time']*60)) . "'";
+							$sql = "UPDATE " . USERS_TABLE . " SET user_badlogin=user_badlogin+1 $blocktime
+								WHERE username = '" . str_replace("\'", "''", $username) . "'";
+							if ( !($result = $db->sql_query($sql)) )
+							{
+								message_die(GENERAL_ERROR, 'Error updating bad login data'.$user_ip, '', __LINE__, __FILE__, $sql);
+							}
+					
+							if ($row['user_email']  && $row['user_blocktime']<(time()-3600))
+							{
+								include($phpbb_root_path . 'includes/emailer.'.$phpEx); 
+								$server_name = trim($board_config['server_name']);
+								$emailer = new emailer($board_config['smtp_delivery']); 
+								$emailer->email_address($row['user_email']); 
+								$email_headers = "To: \"".$row['username']."\" <".$row['user_email']. ">\r\n"; 
+								$email_headers .= "From: \"".$board_config['sitename']."\" <".$board_config['board_email'].">\r\n"; 
+								$email_headers .= "X-AntiAbuse: Board servername - " . $server_name . "\r\n"; 
+								$email_headers .= "X-AntiAbuse: User IP - " . decode_ip($user_ip) . "\r\n"; 
+								$emailer->use_template('bad_login', $row['user_lang']);
+								$emailer->extra_headers($email_headers); 
+								$emailer->assign_vars(array( 
+									'USER' => '"'.$row['username'].'"',
+									'BLOCK_TIME' => $board_config['block_time'],
+									'BAD_LOGINS' => $row['user_badlogin']+1, 
+									'BLOCK_UNTIL' => create_date ($lang['Time_format'],time()+($board_config['block_time']*60),$row['user_timezone']),
+									'SITENAME' => $board_config['sitename'], 
+									'BOARD_EMAIL' => $board_config['board_email'])); 
+								$emailer->send(); 
+								$emailer->reset(); 
+							}
+						}
+						// End add - Protect user account MOD
+					}
+				}
+				$redirect = ( !empty($_POST['redirect']) ) ? str_replace('&amp;', '&', htmlspecialchars($_POST['redirect'])) : '';
+				$redirect = str_replace('?', '&', $redirect);
+				
+				if (strstr(urldecode($redirect), "\n") || strstr(urldecode($redirect), "\r"))
+				{
+					message_die(GENERAL_ERROR, 'Tried to redirect to potentially insecure url.');
+				}
+				
+				$template->assign_vars(array(
+					'META' => "<meta http-equiv=\"refresh\" content=\"3;url=login.$phpEx?redirect=$redirect\">")
+				);
+
+			// Start add - Protect user account MOD
+		/*
+				$message = $lang['Error_login'] . '<br /><br />' . sprintf($lang['Click_return_login'], "<a href=\"login.$phpEx?redirect=$redirect\">", '</a>') . '<br /><br />' .  sprintf($lang['Click_return_index'], '<a href="' . append_sid("index.$phpEx") . '">', '</a>');
+		*/
+				$message = (($blocktime && $lang['Error_login_tomutch'])?$lang['Error_login_tomutch']:$lang['Error_login']) . '<br /><br />' . sprintf($lang['Click_return_login'], '<a href="' . append_sid("login.$phpEx?redirect=$redirect") . '">', '</a>') . '<br /><br />' .  sprintf($lang['Click_return_index'], '<a href="' . append_sid("index.$phpEx") . '">', '</a>');
+				message_die(GENERAL_MESSAGE, $message);
+				// End add - Protect user account MOD
+			}
+		}
+		else
+
+# 
+#-----[ OPEN ]--------------------------------------------- 
+# 
+privmsg.php
+
+#
+#-----[ FIND ]---------------------------------------------
+# Line 1510
+			$orig_word = $replacement_word = array();
+			obtain_word_list($orig_word, $replace_word);
+
+#
+#-----[ REPLACE WITH ]---------------------------------------------
+#
+			$orig_word = $replacement_word = array();
+			obtain_word_list($orig_word, $replacement_word);
+
+# 
+#-----[ OPEN ]--------------------------------------------- 
+# 
+profile.php
+
+#
+#-----[ FIND ]---------------------------------------------
+# Line 60
+	return ( $hash ) ? md5($rand_str) : substr($rand_str, 8);
+
+#
+#-----[ REPLACE WITH ]---------------------------------------------
+#
+	return ( $hash ) ? md5($rand_str) : substr($rand_str, 0, 8);
+
+# 
+#-----[ OPEN ]--------------------------------------------- 
+# 
+search.php
+
+#
+#-----[ FIND ]---------------------------------------------
+# Line 216
+				if( !$only_bluecards && ( strpos($search_author, '%') !== false ) && ( strlen(str_replace('%', '', $search_author)) < 3 ) )
+
+#
+#-----[ REPLACE WITH ]---------------------------------------------
+#
+				if( !$only_bluecards && ( strpos($search_author, '%') !== false ) && ( strlen(str_replace('%', '', $search_author)) < $board_config['search_min_chars'] ) )
+
+#
+#-----[ FIND ]---------------------------------------------
+# Line 288
+				if (!$only_bluecards && (preg_match('#^[\*%]+$#', trim($split_search[$i])) || preg_match('#^[^\*]{1,2}$#', str_replace(array('*', '%'), '', trim($split_search[$i])))) )
+
+#
+#-----[ REPLACE WITH ]---------------------------------------------
+#
+				if (!$only_bluecards && ( strlen(str_replace(array('*', '%'), '', trim($split_search[$i]))) < $board_config['search_min_chars'] ) )
+
+#
+#-----[ FIND ]---------------------------------------------
+# Line 439
+			if (preg_match('#^[\*%]+$#', trim($search_author)) || preg_match('#^[^\*]{1,2}$#', str_replace(array('*', '%'), '', trim($search_author))))
+			{
+				$search_author = '';
+			}
+			$search_author = str_replace('*', '%', trim(str_replace("\'", "''", $search_author)));
+
+#
+#-----[ REPLACE WITH ]---------------------------------------------
+#
+			$search_author = str_replace('*', '%', trim($search_author));
+
+			if( ( strpos($search_author, '%') !== false ) && ( strlen(str_replace('%', '', $search_author)) < $board_config['search_min_chars'] ) )
+			{
+				$search_author = '';
+			}
+
+# 
+#-----[ OPEN ]--------------------------------------------- 
+# 
+viewtopic.php
+
+#
+#-----[ FIND ]---------------------------------------------
+# Line 1101
+		// This was shamelessly 'borrowed' from volker at multiartstudio dot de
+		// via php.net's annotated manual
+		$message = str_replace('\"', '"', substr(@preg_replace('#(\>(((?>([^><]+|(?R)))*)\<))#se', "@preg_replace('#\b(" . str_replace('\\', '\\\\', addslashes($highlight_match)) . ")\b#i', '<span style=\"color:#" . $theme['fontcolor3'] . "\"><b>\\\\1</b></span>', '\\0')", '>' . $message . '<'), 1, -1));
+
+#
+#-----[ REPLACE WITH ]---------------------------------------------
+#
+		// This has been back-ported from 3.0 CVS
+		$message = preg_replace('#(?!<.*)(?<!\w)(' . $highlight_match . ')(?!\w|[^<>]*>)#i', '<b style="color:#'.$theme['fontcolor3'].'">\1</b>', $message);
+
+# 
+#-----[ OPEN ]--------------------------------------------- 
+# 
+ajax.php
+
+#
+#-----[ FIND ]---------------------------------------------
+# 
+			// This was shamelessly 'borrowed' from volker at multiartstudio dot de
+			// via php.net's annotated manual
+			$message = str_replace('\"', '"', substr(@preg_replace('#(\>(((?>([^><]+|(?R)))*)\<))#se', "@preg_replace('#\b(" . str_replace('\\', '\\\\', addslashes($highlight_match)) . ")\b#i', '<span style=\"color:#" . $theme['fontcolor3'] . "\"><b>\\\\1</b></span>', '\\0')", '>' . $message . '<'), 1, -1));
+
+#
+#-----[ REPLACE WITH ]---------------------------------------------
+#
+			// This has been back-ported from 3.0 CVS
+			$message = preg_replace('#(?!<.*)(?<!\w)(' . $highlight_match . ')(?!\w|[^<>]*>)#i', '<b style="color:#'.$theme['fontcolor3'].'">\1</b>', $message);
+
+# 
+#-----[ OPEN ]--------------------------------------------- 
+# 
+shoutbox_max.php
+
+#
+#-----[ FIND ]---------------------------------------------
+# 
+		$shout = str_replace('\"', '"', substr(@preg_replace('#(\>(((?>([^><]+|(?R)))*)\<))#se', "@preg_replace('#\b(" . str_replace('\\', '\\\\', addslashes($highlight_match)) . ")\b#i', '<span style=\"color:#" . $theme['fontcolor3'] . "\"><b>\\\\1</b></span>', '\\0')", '>' . $shout . '<'), 1, -1));
+
+#
+#-----[ REPLACE WITH ]---------------------------------------------
+#
+		// This has been back-ported from 3.0 CVS
+		$shout = preg_replace('#(?!<.*)(?<!\w)(' . $highlight_match . ')(?!\w|[^<>]*>)#i', '<b style="color:#'.$theme['fontcolor3'].'">\1</b>', $shout);
+
+# 
+#-----[ OPEN ]--------------------------------------------- 
+# 
+includes/kb_article.php
+
+#
+#-----[ FIND ]---------------------------------------------
+# 
+		// This was shamelessly 'borrowed' from volker at multiartstudio dot de
+		// via php.net's annotated manual
+		$message = str_replace('\"', '"', substr(@preg_replace('#(\>(((?>([^><]+|(?R)))*)\<))#se', "@preg_replace('#\b(" . str_replace('\\', '\\\\', addslashes($highlight_match)) . ")\b#i', '<span style=\"color:#" . $theme['fontcolor3'] . "\"><b>\\\\1</b></span>', '\\0')", '>' . $article . '<'), 1, -1));
+
+#
+#-----[ REPLACE WITH ]---------------------------------------------
+#
+		// This has been back-ported from 3.0 CVS
+		$article = preg_replace('#(?!<.*)(?<!\w)(' . $highlight_match . ')(?!\w|[^<>]*>)#i', '<b style="color:#'.$theme['fontcolor3'].'">\1</b>', $article);
+
+# 
+#-----[ SAVE/CLOSE ALL FILES ]------------------------------------------ 
+# 
+# EoM

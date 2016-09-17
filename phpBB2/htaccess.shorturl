@@ -1,0 +1,73 @@
+
+DirectoryIndex index.html index.htm portal.php index.php
+
+############################################################
+
+RewriteEngine On
+
+############################################################
+
+# prevent access from santy webworm a-e
+RewriteCond %{QUERY_STRING} ^(.*)highlight=\%2527 [OR]
+RewriteCond %{QUERY_STRING} ^(.*)rush=\%65\%63\%68 [OR]
+RewriteCond %{QUERY_STRING} ^(.*)rush=echo [OR]
+RewriteCond %{QUERY_STRING} ^(.*)echr(.*) [OR]
+RewriteCond %{QUERY_STRING} ^(.*)esystem(.*) [OR]
+RewriteCond %{QUERY_STRING} ^(.*)union(.*) [OR]
+RewriteCond %{QUERY_STRING} ^(.*)UNION(.*) [OR]
+RewriteCond %{QUERY_STRING} ^(.*)alert\(document(.*) [OR]
+RewriteCond %{QUERY_STRING} ^(.*)SQL_INJECTION(.*) [OR]
+RewriteCond %{QUERY_STRING} ^(.*)wget\%20
+RewriteRule ^.*$ http://127.0.0.1/ [R,L]
+
+# prevent pre php 4.3.10 bug
+RewriteCond %{HTTP_COOKIE}% s:(.*):\%22test1\%22\%3b
+RewriteRule ^.*$ http://127.0.0.1/ [R,L]
+
+# prevent perl user agent (most often used by santy)
+RewriteCond %{HTTP_USER_AGENT} ^lwp.* [NC]
+RewriteRule ^.*$ http://127.0.0.1/ [R,L]
+
+#########################################################
+# Mod Rewrite Rules for Static URLs can be found in this file.
+#
+# You have to set the correct Path to your Forum here otherwise this will not work !
+# Just change the "YOUR_PATH" in the below code to the path your Forum uses.
+# For example if your Forum can be reached at http://www.myforum.com/phpBB2/ you have
+# to set the path to this
+#
+# RewriteBase /phpBB2/
+#              ^^^^^^
+#
+# If your Forum can be reached at http://www.myforum.com you can delete the path part
+# 
+# RewriteBase /
+#
+# After making all needed changes in this file rename it to .htaccess and delete the original
+# .htaccess file
+############################################################
+
+RewriteBase /phpBB2/
+
+# extended rewriting only for .html [thx to Caterham] 
+RewriteRule !\.html$ - [L]
+
+RewriteRule ^forums\.html$ index.php [L]
+
+RewriteRule ^forumc([0-9]*)\.html$ index.php?c=$1 [L]
+RewriteRule ^forumc([0-9]*),(.*)\.html$ index.php?c=$1 [L]
+
+RewriteRule ^viewforum([0-9]*)-([0-9]*)-([0-9]*)\.html$ viewforum.php?f=$1&topicdays=$2&start=$3 [L]
+RewriteRule ^viewforum([0-9]*)-([0-9]*)-([0-9]*),(.*)\.html$ viewforum.php?f=$1&topicdays=$2&start=$3 [L]
+
+RewriteRule ^forum([0-9]*)\.html$ viewforum.php?f=$1 [L]
+RewriteRule ^forum([0-9]*),(.*)\.html$ viewforum.php?f=$1 [L]
+
+RewriteRule ^ptopic([0-9]*)\.html$ viewtopic.php?t=$1&view=previous [L]
+RewriteRule ^ntopic([0-9]*)\.html$ viewtopic.php?t=$1&view=next [L]
+
+RewriteRule ^ftopic([0-9]*)-([0-9]*)-([a-zA-Z]*)-([0-9]*)\.html$ viewtopic.php?t=$1&postdays=$2&postorder=$3&start=$4 [L]
+RewriteRule ^ftopic([0-9]*)\.html$ viewtopic.php?t=$1&start=$2&postdays=$3&postorder=$4&highlight=$5 [L]
+RewriteRule ^ftopic([0-9]*)-([0-9]*)\.html$ viewtopic.php?t=$1&start=$2 [L]
+RewriteRule ^ftopic([0-9]*)\.html$ viewtopic.php?t=$1 [L]
+RewriteRule ^fpost([0-9]*)\.html$ viewtopic.php?p=$1 [L] 

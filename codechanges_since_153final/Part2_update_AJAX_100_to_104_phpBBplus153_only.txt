@@ -1,0 +1,738 @@
+############################################################## 
+## MOD Title:          AJAX features (update)
+## MOD Author:         alcaeus < mods@alcaeus.org >   (N/A)             http://www.alcaeus.org
+##		       cback   < webmaster@cback.de > (Christian Knerr) http://www.cback.de
+##		       oxpus   < webmaster@oxpus.de > (Karsten Ude)     http://www.oxpus.de
+## MOD Description:    This MOD introduces a lot of features based on the AJAX 
+##                     technology. For more details, see features.txt
+## MOD Version:        1.0.4
+##
+## Installation Level: n/a
+## Installation Time:  n/a
+## Files To Edit:      16
+##      admin/page_header_admin.php
+##      includes/functions.php
+##      includes/page_header.php
+##      language/lang_english/lang_main.php
+##      language/lang_german/lang_main.php
+##      templates/fisubsilversh/admin/page_header.tpl
+##      templates/fisubsilversh/modcp_body.tpl
+##      templates/fisubsilversh/overall_header.tpl
+##      templates/fisubsilversh/search_results_posts.tpl
+##      templates/fisubsilversh/search_results_topics.tpl
+##      templates/fisubsilversh/simple_header.tpl
+##      templates/fisubsilversh/viewforum_body.tpl
+##      templates/fisubsilversh/viewtopic_body.tpl
+##      templates/fisubsilversh/viewtopic_poll_result.tpl
+##      search.php
+##      viewtopic.php
+##
+## Included Files:     7
+##      includes/javascript/ajax_core.js
+##      includes/javascript/ajax_forumfunctions.js
+##      includes/javascript/ajax_postfunctions.js
+##      includes/javascript/ajax_regfunctions.js
+##      includes/javascript/ajax_searchfunctions.js
+##      includes/javascript/ajax_topicfunctions.js
+##      ajax.php
+## License: http://opensource.org/licenses/gpl-license.php GNU General Public License v2 
+############################################################## 
+## For security purposes, please check: http://www.phpbb.com/mods/ 
+## for the latest version of this MOD. Although MODs are checked 
+## before being allowed in the MODs Database there is no guarantee 
+## that there are no security problems within the MOD. No support 
+## will be given for MODs not found within the MODs Database which 
+## can be found at http://www.phpbb.com/mods/ 
+############################################################## 
+## Author Notes: 
+## 
+## THIS FILE CONTAINS INSTRUCTIONS FOR UPDATING INSTALLATIONS WHERE THE 
+## INCLUDED FILES HAVE NOT BEEN MODIFIED. IF YOU HAVE, PLEASE USE 
+## update_100_to_101.txt. IF YOU DON'T HAVE THE MOD INSTALLED, PLEASE USE 
+## install.txt
+## 
+## 1. MOD Compatibility
+## -----------
+## This MOD has been successfully tested on phpBB 2.0.20. This MOD will not 
+## work on versions before 2.0.20, as some crucial functions are missing. 
+## Furthermore, you should always keep your installation of phpBB up to date. 
+## To get the newest version of phpBB, go to http://www.phpbb.com/downloads.php
+## If you don't have phpBB 2.0.20, upgrade now BEFORE updating or installing 
+## this MOD; you won't find some of the instructions
+## 
+## 2. MOD Installation
+## -----------
+## There are two ways to install MODs into your phpBB:
+## 
+## 2.1. Installation with EasyMOD (EM)
+## -----------
+## Note that EM does not manage translations. Therefore, this file only 
+## contains instructions for english language files. For other language strings
+## see the translations-folder or contact me, if your language is missing.
+## Translations are always appreciated
+## 
+## 2.2. Manual Installation
+## -----------
+## EM might fail on very heavily modded boards. Therefore it's possible that 
+## you have to do the install manually. Also, if you don't like using EM for 
+## whatever reason, you'll have to perform the update instructions yourself. 
+## If you're unfamiliar with the process of installing a MOD, please use this 
+## document: http://www.phpbb.com/kb/article.php?article_id=150
+## 
+## 3. MOD Support
+## -----------
+## Ok, general rule of thumb: ask for support on the site where you got the 
+## MOD. This is either on my site (*.alcaeus.org), on phpbb.com, phpbb.de or 
+## phpbb2.de (Note that a MOD may not have been released on all of the listed 
+## sites, but those are the ones I trust). If you have downloaded the MOD from 
+## any other location, please contact me via eMail and I'll take care of it.
+## You should not install MODs downloaded from other sources than the ones 
+## mentioned above.
+## Also, if you are using a system other than phpBB (i.e. Orion, phpBB Plus, 
+## etc.) you will NOT, I repeat, NOT get support, so please do not ask. I only 
+## accept bug reports that are reproducable in the current version of phpBB, 
+## but not bugs that only appear in premodded versions; ask where you got the 
+## premod. Topics asking for support/and bug reports which don't affect phpBB 
+## will be locked on sight. You've been warned!
+## 
+## 4. Contact
+## -----------
+## First: do not contact me via PM or eMail asking for support. Be ready to be 
+## ignored in that case. If you need support, see chapter 2. There is only one 
+## reason for you to contact me via eMail or PM: you want to build a MOD based 
+## on the code of one of my MODs and redistribute it. In that case, I request 
+## you ask for my permission for re-usage and re-release of my code.
+##
+## 5. Official last version link
+## -----------
+## You can see the MOD in action and download the newest version at the 
+## ajax_features demo area, which can be found at 
+## http://demoarea.alcaeus.org/ajax_features
+##
+############################################################## 
+## MOD History: 
+##
+##   2006-05-17 - Version 1.0.2
+##      - [change] Added Dynamic Var for current page charset
+##
+##   2006-04-19 - Version 1.0.1
+##      - [fix] Fixed bug in AJAX vote - could still vote in expired polls
+##      - [fix] Fixed bug with + in QuickEdit and QuickPreview, reported and 
+##        fix provided by John Doe, oxpus and cback
+##      - [fix] Fixed bug with UTF-8 characters in QuickEdit and QuickPreview
+##        Thanks to markus_petrux for hinting a fix
+##      - [fix] Fixed bug with post texts being truncated to 4096 Bytes when 
+##        sent back to some Browsers (John Doe)
+##      - [change] Changed search results to show results as posts by default
+##        (beedy)
+##      - [change] Used phpBB defined constants for parameter names in 
+##        Javascript (phpBB MOD Team)
+##      - [change] Used phpBB defined variable for php file extension (phpBB 
+##        MOD team)
+##      - [change] Bypass errors caused by phpBB 2.0.20's search flood 
+##        protection. The MOD now requires version 2.0.20!
+##      - [change] Limit length for topic title in AJAX edit fields (John Doe)
+##      - [change] Scroll to top when using the quick preview feature 
+##        (kroetenmist)
+##      - [new] Provided link to go from poll results to poll ballot, if the 
+##        user has not voted (works in AJAX and classic modes)
+##
+##   2006-02-04 - Version 1.0.0
+##      - Initial stable release
+##
+############################################################## 
+## Before Adding This MOD To Your Forum, You Should Back Up All Files Related To This MOD 
+############################################################## 
+# 
+#-----[ COPY ]------------------------------------------------ 
+# 
+copy /phpBB2/ajax.php to /ajax.php
+copy /phpBB2/includes/javascript/ajax_core.js to /includes/javascript/ajax_core.js
+copy /phpBB2/includes/javascript/ajax_forumfunctions.js to /includes/javascript/ajax_forumfunctions.js
+copy /phpBB2/includes/javascript/ajax_postfunctions.js to /includes/javascript/ajax_postfunctions.js
+copy /phpBB2/includes/javascript/ajax_regfunctions.js to /includes/javascript/ajax_regfunctions.js
+copy /phpBB2/includes/javascript/ajax_searchfunctions.js to /includes/javascript/ajax_searchfunctions.js
+copy /phpBB2/includes/javascript/ajax_topicfunctions.js to /includes/javascript/ajax_topicfunctions.js
+
+
+# 
+#-----[ OPEN ]------------------------------------------------ 
+# 
+admin/page_header_admin.php
+
+
+# 
+#-----[ FIND ]------------------------------------------------ 
+# 
+	'PHPBB_ROOT_PATH' => $phpbb_root_path,
+
+
+# 
+#-----[ AFTER, ADD ]------------------------------------------ 
+#
+	'PHPEX' => $phpEx,
+
+
+# 
+#-----[ OPEN ]------------------------------------------------ 
+# 
+includes/functions.php
+
+
+# 
+#-----[ FIND ]------------------------------------------------ 
+# 
+			$template->assign_block_vars('tag', array(
+				'TAGNAME' => $key,
+				'VALUE' => utf8_encode(htmlspecialchars($value)))
+
+
+# 
+#-----[ REPLACE WITH ]---------------------------------------- 
+# 
+			$value = utf8_encode(htmlspecialchars($value));
+			// Get special characters in posts back ;)
+			$value = preg_replace('#&amp;\#(\d{1,4});#i', '&#\1;', $value);
+			
+			$template->assign_block_vars('tag', array(
+				'TAGNAME' => $key,
+				'VALUE' => $value)
+
+
+# 
+#-----[ FIND ]------------------------------------------------ 
+# 
+	$text = preg_replace("/&quot;/i", "\"", $text);
+	$text = preg_replace("/&amp;/i", "&", $text);
+
+	return $text;
+}
+
+
+# 
+#-----[ AFTER, ADD ]------------------------------------------ 
+#
+
+/**
+* RFC1738 compliant replacement to PHP's rawurldecode - which actually works with unicode (using utf-8 encoding)
+* @author Ronen Botzer
+* @param $source [STRING]
+* @return unicode safe rawurldecoded string [STRING]
+* @access public
+*/
+function utf8_rawurldecode($source)
+{
+	// Strip slashes
+	$source = stripslashes($source);
+	
+	$decodedStr = '';
+	$pos = 0;
+	$len = strlen ($source);
+	
+	while ($pos < $len)
+	{
+		$charAt = substr($source, $pos, 1);
+		if ($charAt == '%')
+		{
+			$pos++;
+			$charAt = substr($source, $pos, 1);
+			if ($charAt == 'u')
+			{
+				// we got a unicode character
+				$pos++;
+				$unicodeHexVal = substr($source, $pos, 4);
+				$unicode = hexdec($unicodeHexVal);
+				$entity = "&#". $unicode .';';
+				$decodedStr .= utf8_encode($entity);
+				$pos += 4;
+			}
+			else
+			{
+				// we have an escaped ascii character
+				$hexVal = substr ($source, $pos, 2);
+				$decodedStr .= chr (hexdec ($hexVal));
+				$pos += 2;
+			}
+		}
+		else
+		{
+			$decodedStr .= $charAt;
+			$pos++;
+		}
+	}
+
+	// Add slashes before sending it back to the browser; 
+	// this keeps people from trying to inject SQL with some malformed string like %2527
+	return addslashes($decodedStr);
+}
+
+// Used to escape AJAX data correctly.
+// functions_post.php must be included before calling this function
+function ajax_htmlspecialchars($text)
+{
+	global $html_entities_match, $html_entities_replace;
+	
+	return preg_replace($html_entities_match, $html_entities_replace, $text);
+}
+
+
+# 
+#-----[ OPEN ]------------------------------------------------ 
+# 
+includes/page_header.php
+
+
+# 
+#-----[ FIND ]------------------------------------------------ 
+# 
+	'PHPBB_ROOT_PATH' => $phpbb_root_path,
+
+
+# 
+#-----[ AFTER, ADD ]------------------------------------------ 
+#
+	'PHPEX' => $phpEx,
+	'POST_FORUM_URL' => POST_FORUM_URL,
+	'POST_TOPIC_URL' => POST_TOPIC_URL,
+	'POST_POST_URL' => POST_POST_URL,
+
+
+# 
+#-----[ OPEN ]------------------------------------------------ 
+# 
+language/lang_english/lang_main.php
+
+
+# 
+#-----[ FIND ]------------------------------------------------ 
+# 
+$lang['View_results'] = 'View Results';
+
+
+# 
+#-----[ AFTER, ADD ]------------------------------------------ 
+#
+$lang['View_ballot'] = 'View Ballot';
+
+
+# 
+#-----[ OPEN ]------------------------------------------------ 
+# 
+language/lang_german/lang_main.php
+
+# 
+#-----[ FIND ]------------------------------------------------ 
+# 
+$lang['View_results'] = 'Ergebnis anzeigen';
+
+
+# 
+#-----[ AFTER, ADD ]------------------------------------------ 
+#
+$lang['View_ballot'] = 'Umfrage anzeigen';
+
+
+# 
+#-----[ OPEN ]------------------------------------------------ 
+# 
+templates/fisubsilversh/admin/page_header.tpl
+
+
+# 
+#-----[ FIND ]------------------------------------------------ 
+# 
+var S_SID = '{S_SID}';
+var ajax_core_defined = 0;
+var phpbb_root_path = '{PHPBB_ROOT_PATH}';
+
+
+# 
+#-----[ BEFORE, ADD ]----------------------------------------- 
+#
+var phpEx = '{PHPEX}';
+
+# 
+#-----[ AFTER ADD ]------------------------------------------------ 
+# 
+var ajax_page_charset = '{S_CONTENT_ENCODING}';
+
+# 
+#-----[ OPEN ]------------------------------------------------ 
+# 
+templates/fisubsilversh/modcp_body.tpl
+
+
+# 
+#-----[ FIND ]------------------------------------------------ 
+# 
+<span id="title_{topicrow.TOPIC_FIRST_POST_ID}" style="display:none;"><input type="text" class="post" name="topictitle_{topicrow.TOPIC_FIRST_POST_ID}" id="topictitle_{topicrow.TOPIC_FIRST_POST_ID}" value="{topicrow.TOPIC_TITLE}" size="40" /><input type="hidden" id="orig_topictitle_{topicrow.TOPIC_FIRST_POST_ID}" value="{topicrow.TOPIC_TITLE}" />&nbsp;<input type="button" onclick="AJAXEndTitleEdit({topicrow.TOPIC_FIRST_POST_ID})" value="{L_SAVE_CHANGES}" class="mainoption" />&nbsp;<input type="button" onclick="AJAXCancelTitleEdit({topicrow.TOPIC_FIRST_POST_ID})" value="{L_CANCEL}" class="liteoption" /></span>
+
+
+# 
+#-----[ IN-LINE FIND ]---------------------------------------- 
+# 
+size="40" 
+
+
+# 
+#-----[ IN-LINE AFTER, ADD ]---------------------------------- 
+# 
+maxlength="60" 
+
+
+# 
+#-----[ OPEN ]------------------------------------------------ 
+# 
+templates/fisubsilversh/overall_header.tpl
+
+
+# 
+#-----[ FIND ]------------------------------------------------ 
+# 
+var S_SID = '{S_SID}';
+var ajax_core_defined = 0;
+var phpbb_root_path = '{PHPBB_ROOT_PATH}';
+
+
+# 
+#-----[ AFTER, ADD ]------------------------------------------ 
+#
+var phpEx = '{PHPEX}';
+var POST_FORUM_URL = '{POST_FORUM_URL}';
+var POST_TOPIC_URL = '{POST_TOPIC_URL}';
+var POST_POST_URL = '{POST_POST_URL}';
+
+
+# 
+#-----[ OPEN ]------------------------------------------------ 
+# 
+templates/fisubsilversh/search_results_posts.tpl
+
+
+# 
+#-----[ FIND ]------------------------------------------------ 
+# 
+<span id="title_{searchresults.U_POST_ID}" style="display:none;"><input type="text" class="post" name="topictitle_{searchresults.U_POST_ID}" id="topictitle_{searchresults.U_POST_ID}" value="{searchresults.POST_RAW_SUBJECT}" size="40" onkeyup="AJAXTitleEditKeyUp(event, {searchresults.U_POST_ID})" /><input type="hidden" id="orig_topictitle_{searchresults.U_POST_ID}" value="{searchresults.POST_RAW_SUBJECT}" />&nbsp;<input type="button" onclick="AJAXEndTitleEdit({searchresults.U_POST_ID})" value="{L_SAVE_CHANGES}" class="mainoption" />&nbsp;<input type="button" onclick="AJAXCancelTitleEdit({searchresults.U_POST_ID})" value="{L_CANCEL}" class="liteoption" /></span>
+
+# 
+#-----[ IN-LINE FIND ]---------------------------------------- 
+# 
+size="40" 
+
+
+# 
+#-----[ IN-LINE AFTER, ADD ]---------------------------------- 
+# 
+maxlength="60" 
+
+
+# 
+#-----[ OPEN ]------------------------------------------------ 
+# 
+templates/fisubsilversh/search_results_topics.tpl
+
+
+# 
+#-----[ FIND ]------------------------------------------------ 
+# 
+<span id="title_{searchresults.TOPIC_FIRST_POST_ID}" style="display:none;"><input type="text" class="post" name="topictitle_{searchresults.TOPIC_FIRST_POST_ID}" id="topictitle_{searchresults.TOPIC_FIRST_POST_ID}" value="{searchresults.TOPIC_TITLE}" size="40" onkeyup="AJAXTitleEditKeyUp(event, {searchresults.TOPIC_FIRST_POST_ID})" /><input type="hidden" id="orig_topictitle_{searchresults.TOPIC_FIRST_POST_ID}" value="{searchresults.TOPIC_TITLE}" />&nbsp;<input type="button" onclick="AJAXEndTitleEdit({searchresults.TOPIC_FIRST_POST_ID})" value="{L_SAVE_CHANGES}" class="mainoption" />&nbsp;<input type="button" onclick="AJAXCancelTitleEdit({searchresults.TOPIC_FIRST_POST_ID})" value="{L_CANCEL}" class="liteoption" /></span>
+
+# 
+#-----[ IN-LINE FIND ]---------------------------------------- 
+# 
+size="40" 
+
+
+# 
+#-----[ IN-LINE AFTER, ADD ]---------------------------------- 
+# 
+maxlength="60" 
+
+
+# 
+#-----[ OPEN ]------------------------------------------------ 
+# 
+templates/fisubsilversh/simple_header.tpl
+
+
+# 
+#-----[ FIND ]------------------------------------------------ 
+# 
+var S_SID = '{S_SID}';
+var ajax_core_defined = 0;
+var phpbb_root_path = '{PHPBB_ROOT_PATH}';
+
+
+# 
+#-----[ BEFORE, ADD ]----------------------------------------- 
+#
+var phpEx = '{PHPEX}';
+var POST_FORUM_URL = '{POST_FORUM_URL}';
+var POST_TOPIC_URL = '{POST_TOPIC_URL}';
+var POST_POST_URL = '{POST_POST_URL}';
+var ajax_page_charset = '{S_CONTENT_ENCODING}';
+
+# 
+#-----[ OPEN ]------------------------------------------------ 
+# 
+templates/fisubsilversh/topics_list_box.tpl
+
+
+# 
+#-----[ FIND ]------------------------------------------------ 
+# 
+	  	<span id="title_{topics_list_box.row.TOPIC_FIRST_POST_ID}" style="display:none;"><input type="text" class="post" name="topictitle_{topics_list_box.row.TOPIC_FIRST_POST_ID}" id="topictitle_{topics_list_box.row.TOPIC_FIRST_POST_ID}" value="{topics_list_box.row.TOPIC_TITLE}" size="40" onkeyup="AJAXTitleEditKeyUp(event, {topics_list_box.row.TOPIC_FIRST_POST_ID})" /><input type="hidden" id="orig_topictitle_{topics_list_box.row.TOPIC_FIRST_POST_ID}" value="{topics_list_box.row.TOPIC_TITLE}" />&nbsp;<input type="button" onclick="AJAXEndTitleEdit({topics_list_box.row.TOPIC_FIRST_POST_ID})" value="{L_SAVE_CHANGES}" class="mainoption" />&nbsp;<input type="button" onclick="AJAXCancelTitleEdit({topics_list_box.row.TOPIC_FIRST_POST_ID})" value="{L_CANCEL}" class="liteoption" /></span>
+
+# 
+#-----[ IN-LINE FIND ]---------------------------------------- 
+# 
+size="40" 
+
+
+# 
+#-----[ IN-LINE AFTER, ADD ]---------------------------------- 
+# 
+maxlength="60" 
+
+
+# 
+#-----[ OPEN ]------------------------------------------------ 
+# 
+templates/fisubsilversh/viewtopic_body.tpl
+
+
+# 
+#-----[ FIND ]------------------------------------------------ 
+# 
+<span id="title_{postrow.U_POST_ID}" style="display:none;"><input type="text" class="post" name="topictitle_{postrow.U_POST_ID}" id="topictitle_{postrow.U_POST_ID}" value="{postrow.POST_RAW_SUBJECT}" size="40" onkeyup="AJAXTitleEditKeyUp(event, {postrow.U_POST_ID})" /><input type="hidden" id="orig_topictitle_{postrow.U_POST_ID}" value="{postrow.POST_RAW_SUBJECT}" />&nbsp;<input type="button" onclick="AJAXEndTitleEdit({postrow.U_POST_ID})" value="{L_SAVE_CHANGES}" class="mainoption" />&nbsp;<input type="button" onclick="AJAXCancelTitleEdit({postrow.U_POST_ID})" value="{L_CANCEL}" class="liteoption" /></span>
+
+# 
+#-----[ IN-LINE FIND ]---------------------------------------- 
+# 
+size="40" 
+
+
+# 
+#-----[ IN-LINE AFTER, ADD ]---------------------------------- 
+# 
+maxlength="60" 
+
+
+# 
+#-----[ OPEN ]------------------------------------------------ 
+# 
+templates/fisubsilversh/viewtopic_poll_result.tpl
+
+
+# 
+#-----[ FIND ]------------------------------------------------ 
+# 
+<tr> 
+<td colspan="4" align="center"><strong>{L_TOTAL_VOTES} : {TOTAL_VOTES}</strong></td>
+</tr>
+
+# 
+#-----[ AFTER, ADD ]------------------------------------------ 
+#
+<!-- BEGIN switch_view_ballot -->
+<tr>
+<td align="center"><strong><a href="{U_VIEW_BALLOT}" onClick="return AJAXViewPollBallot({TOPIC_ID});" class="gensmall">{L_VIEW_BALLOT}</a></strong></td>
+</tr>
+<!-- END switch_view_ballot -->
+
+# 
+#-----[ OPEN ]------------------------------------------------ 
+# 
+search.php
+
+# 
+#-----[ FIND ]------------------------------------------------ 
+# 
+//
+// End session management
+//
+
+
+# 
+#-----[ AFTER, ADD ]------------------------------------------ 
+#
+if (isset($_POST['is_ajax']) || isset($_GET['is_ajax']))
+{
+	$is_ajax = (isset($_POST['is_ajax'])) ? intval($_POST['is_ajax']) : intval($_GET['is_ajax']);
+}
+else
+{
+	$is_ajax = 0;
+}
+
+
+# 
+#-----[ FIND ]------------------------------------------------ 
+# 
+    message_die(GENERAL_MESSAGE, $waitmsg);
+
+
+# 
+#-----[ REPLACE WITH ]---------------------------------------- 
+# 
+	if ($is_ajax)
+	{
+		$result_ar = array(
+			'search_id' => 0,
+			'results' => 0,
+			'keywords' => ''
+		);
+		AJAX_message_die($result_ar);
+	}
+	else
+	{
+    	message_die(GENERAL_MESSAGE, $waitmsg);
+	}
+
+# 
+#-----[ FIND ]------------------------------------------------ 
+# 
+      message_die(GENERAL_MESSAGE, $waitmsg);
+
+
+# 
+#-----[ REPLACE WITH ]---------------------------------------- 
+# 
+	if ($is_ajax)
+	{
+		$result_ar = array(
+			'search_id' => 0,
+			'results' => 0,
+			'keywords' => ''
+		);
+		AJAX_message_die($result_ar);
+	}
+	else
+	{
+      	message_die(GENERAL_MESSAGE, $waitmsg);
+	}
+
+# 
+#-----[ FIND ]------------------------------------------------ 
+# 
+	$show_results = 'topics';
+}
+$show_results = ($show_results == 'posts') ? 'posts' : 'topics';
+
+
+# 
+#-----[ REPLACE WITH ]---------------------------------------- 
+# 
+	$show_results = 'posts';
+}
+$show_results = ($show_results == 'topics') ? 'topics' : 'posts';
+
+
+# 
+#-----[ FIND ]------------------------------------------------ 
+# 
+if (isset($_POST['is_ajax']) || isset($_GET['is_ajax']))
+{
+	$is_ajax = (isset($_POST['is_ajax'])) ? intval($_POST['is_ajax']) : intval($_GET['is_ajax']);
+}
+else
+{
+	$is_ajax = 0;
+}
+
+
+#
+#-----[ REPLACE WITH ]---------------------------------------------
+#
+// $is_ajax is moved before CrackerTracker Search Flood Protection 
+
+
+# 
+#-----[ FIND ]------------------------------------------------ 
+# 
+	$search_where = (isset($_POST['search_where'])) ? $_POST['search_where'] : intval($_GET['search_where']);
+	$search_where = ($search_where == 'Root') ? 'Root' : intval($search_where);
+
+#
+#-----[ REPLACE WITH ]---------------------------------------------
+#
+	$search_where = (isset($_POST['search_where'])) ? $_POST['search_where'] : $_GET['search_where'];
+	if (!preg_match('#(f|c)[0-9]+#',$search_where))
+	{
+		$search_where = 'Root';
+	}
+
+# 
+#-----[ FIND ]------------------------------------------------ 
+# 
+					message_die(GENERAL_MESSAGE, $lang['Search_Flood_Error']);
+
+
+# 
+#-----[ REPLACE WITH ]---------------------------------------- 
+# 
+					if ($is_ajax)
+					{
+						$result_ar = array(
+							'search_id' => 0,
+							'results' => 0,
+							'keywords' => ''
+						);
+						AJAX_message_die($result_ar);
+					}
+					else
+					{
+						message_die(GENERAL_MESSAGE, $lang['Search_Flood_Error']);
+					}
+
+
+# 
+#-----[ FIND ]------------------------------------------------ 
+# 
+		$keys = get_auth_keys($search_where, true, -1, -1, 'auth_read');
+	//	$keys = get_auth_keys($search_where, true);
+
+#
+#-----[ REPLACE WITH ]---------------------------------------------
+#
+	//	$keys = get_auth_keys($search_where, true, -1, -1, 'auth_read');
+		$keys = get_auth_keys($search_where, true);
+
+# 
+#-----[ OPEN ]------------------------------------------------ 
+# 
+viewtopic.php
+
+
+# 
+#-----[ FIND ]------------------------------------------------ 
+# 
+				'TOTAL_VOTES' => $vote_results_sum)
+			);
+
+
+# 
+#-----[ REPLACE WITH ]---------------------------------------- 
+# 
+				'TOTAL_VOTES' => $vote_results_sum,
+				
+				'L_VIEW_BALLOT' => $lang['View_ballot'],
+				'U_VIEW_BALLOT' => append_sid("viewtopic.$phpEx?". POST_TOPIC_URL ."=$topic_id&amp;postdays=$post_days&amp;postorder=$post_order"))
+			);
+			
+			if (!$user_voted && !$poll_expired && $is_auth['auth_vote'] && ($forum_topic_data['topic_status'] != TOPIC_LOCKED))
+			{
+				$template->assign_block_vars('switch_view_ballot', array());
+			}
+
+
+#
+#-----[ EXECUTE ]------------------------------------------
+#
+  
+Please Execute now the commands from the File "Part3_crackertracker_412-417_plus.txt"
+
+# 
+#-----[ SAVE/CLOSE ALL FILES ]------------------------------------------ 
+# 
+# EoM

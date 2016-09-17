@@ -1,0 +1,560 @@
+<html>
+<head>
+<style type="text/css">
+<!--
+body {
+    font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif;
+    font-size: 10pt;
+    background-color: white;
+
+    scrollbar-face-color: ##0058AA;
+    scrollbar-shadow-color: ##0058AA;
+    scrollbar-darkshadow-color: ##0058AA;
+    scrollbar-arrow-color: ##0058AA;
+}
+table {
+    font-size: 10pt;
+}
+
+h1 {
+    color: #0058AA;
+    font-size: 18pt;
+    font-weight: normal;
+	letter-spacing: 2px
+}
+h2 {
+    color: #0058AA;
+    font-size: 16pt;
+    font-weight: normal;
+	letter-spacing: 1px
+}
+h3 {
+    color: #0058AA;
+    font-size: 14pt;
+    font-weight: normal;
+}
+.bodyline{background:#ffffff;border:1px solid #98aab1; height:100%;}
+a, a:link  { color: #0058AA; }
+a:visited { color: #0058AA; }
+a:hover   { color: #0058AA; }
+.topbkg{background:#f8f9fb url('update/fissh/cellpic_bkg.jpg') repeat-x; } 
+-->
+</style>
+<meta name="author" content="S. Paulus">
+
+<title>phpBB2 plus 1.53</title>
+</head>
+<body>
+
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+<td valign="top">
+<table class="topbkg" width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+<td><img src="update/fissh/phpbb2_logo.jpg" border="0" alt="phpBB2 plus" title="phpBB2 plus" width="230" height="110" /></td>
+<td align="right" width="100%">
+<img src="update/fissh/phpbb2_logor.jpg" border="0" alt="phpBB2 plus" title="phpBB2 plus" width="140" height="110" /><table cellspacing="0" cellpadding="2" border="0">
+<tr></tr>
+</table></td>
+</tr>
+</table>
+<h1>phpBB2 plus 1.53</h1>
+
+<h1><br>
+Inhalt</h1>
+
+<ul>
+  <li><a href="#overview">Übersicht</a></li>
+  <li><a href="#languages">Sprachen</a></li>
+  <li><a href="#freshinstallation">Neue Installation</a></li>
+  <li><a href="#upgrade_plus">Update einer vorhandenen phpBB2 Plus 1.52 Version</a></li>
+  <li><a href="#upgrade">Update einer vorhandenen phpBB 2.0.XX Version</a></li>
+  <li><a href="#upgrade2">Update einer vorhandenen phpBB2 Plus 1.3 Version oder niedriger</a></li>
+  <li><a href="#CHMOD">Datei- und Ordnerrechte bei *NIX-Servern</a></li>
+  <li><a href="#settings">Einstellungen</a></li>
+  <li><a href="#license">Lizenz</a></li>
+  <li><a href="#faq">Häufig gestellte Fragen (FAQ)</a></li>
+  <li><a href="#thx">Danksagungen</a></li>
+  <li><a href="#support">Support</a></li>
+  <li><a href="#history">Versionen</a></li>
+</ul>
+
+
+<a name="overview"><h1>Übersicht</h1></a>
+
+<p>phpBB is a high powered, fully scalable, and highly customisable open-source bulletin board package.
+The official home page is <a href="http://www.phpbb.com/" target="_blank">www.phpbb.com</a>.
+<br>
+<br>
+
+<b>phpBB2 </b>plus 1.53 ist eine &quot;gemoddete&quot; Version von phpBB 2.0.21, also eine 
+Version mit bereits vorinstallierten &quot;Mods&quot;. Dieses Paket stammt von <a href="http://www.phpbb2.de" target="_blank">
+www.phpbb2.de</a>.<br>
+&nbsp;</p>
+
+<p>Credits für die integrierten Mods gehen an die Autoren in dieser Liste:</p>
+<p>
+Was ist im <b>phpBB2 plus 1.53</b>:
+<ul>
+  <li>phpBB 2.0.21 ;)</li>
+  <li>Template FI Subsilver Shadow 2.11 (<i>Darren Burnhill -
+	<a target="_blank" href="http://www.forumimages.com">Forumimages</a></i>)</li>
+	<li>Categories Hierarchie Mod 2.0.4 Final (<i>Pthirik -
+	<a target="_blank" href="http://rpgnet.clanmckeen.com/demo/">RPGNet</a></i>)</li>
+	<li>Announces Suite 3.0.2 (<i>Pthirik -
+	<a target="_blank" href="http://rpgnet.clanmckeen.com/demo/">RPGNet</a></i>)</li>
+	<li>Split topic type Mod 2.0.1 (<i>Pthirik -
+	<a target="_blank" href="http://rpgnet.clanmckeen.com/demo/">RPGNet</a></i>)</li>
+	<li>Birthday Mod 1.5.6 (<i>Niels Chr. Denmark -
+	<a target="_blank" href="http://mods.db9.dk">mods.db9.dk</a></i>)</li>
+	<li>Birthday Addon Zodiac 1.0.5 (<i>Niels Chr. Denmark -
+	<a target="_blank" href="http://mods.db9.dk">mods.db9.dk</a></i>)</li>
+	<li>Birthday Addon Chinese Zodiac 1.0.1 (<i>Niels Chr. Denmark -
+	<a target="_blank" href="http://mods.db9.dk">mods.db9.dk</a></i>)</li>
+	<li>Birthday Addon Chinese Zodiac in Viewtopic 1.0.0 (<i>Niels Chr. Denmark 
+	- <a target="_blank" href="http://mods.db9.dk">mods.db9.dk</a></i>)</li>
+	<li>Gender Mod 1.2.6 (<i>Niels Chr. Denmark -
+	<a target="_blank" href="http://mods.db9.dk">mods.db9.dk</a></i>)</li>
+	<li>Attachment Mod 2.4.1 (<i>Meik Sievertsen -
+	<a target="_blank" href="http://www.opentools.de">Opentools</a></i>)</li>
+	<li>Junior Admin Mod 2.0.5 (<i>Nivisec -
+	<a target="_blank" href="http://www.nivisec.com/">Nivisec.com</a></i>)</li>
+	<li>Today at / Yesterday at Mod 1.2.2 (akzhaiyk)</li>
+	<li>Color Groups Mod 1.2.0 incl. Oxpus Speed up Color Groups Mod (<i>Nivisec 
+	- <a target="_blank" href="http://www.nivisec.com/">Nivisec.com</a> / Oxpus 
+	- <a target="_blank" href="http://www.oxpus.de">Oxpus.de</a></i>)</li>
+	<li>Last Visit Mod 1.2.8 (<i>Niels Chr. Denmark -
+	<a target="_blank" href="http://mods.db9.dk">mods.db9.dk</a></i>)</li>
+	<li>Country Flags Mod 2.2.0 (<i>Nuttzy99 -
+	<a target="_blank" href="http://www.blizzhackers.com">Blizzhackers</a></i>)</li>
+	<li>Anti Robotic Reg 1.1.4 (<i>Smartor -
+	<a target="_blank" href="http://smartor.is-root.com">Smartors Site</a></i>)</li>
+	<li>EzPortal Mod 2.1.8 (<i>Smartor -
+	<a target="_blank" href="http://smartor.is-root.com">Smartors Site</a></i>)</li>
+	<li>Pafiledb Mod 0.0.9d (<i>Mohd -
+	<a target="_blank" href="http://mohd.vraag-en-antwoord.nl/main/">Mohds Site</a></i>)</li>
+	<li>Photo Album 2.0.51 (<i>Smartor -
+	<a target="_blank" href="http://smartor.is-root.com">Smartors Site</a></i>)</li>
+	<li>Photo Album Block Add-on 0.9.2 (<i>Kooky -
+	<a target="_blank" href="http://perso.edeign.com/kooky/">Kookys Site</a></i>)</li>
+	<li>Posts Icons Mod 1.0.1 (<i>Pthirik -
+	<a target="_blank" href="http://rpgnet.clanmckeen.com/demo/">RPGNet</a></i>)</li>
+	<li>Topic Calendar Mod 1.0.1 (<i>Pthirik -
+	<a target="_blank" href="http://rpgnet.clanmckeen.com/demo/">RPGNet</a></i>)</li>
+	<li>Default Avatar Mod 1.0.0 (own creation)</li>
+	<li>Advanced Quick Reply Mod 1.1.1 (own creation)</li>
+	<li>Recent Topics Block for Smartor's ezPortal 1.0.0 (<i>Smartor -
+	<a target="_blank" href="http://smartor.is-root.com">Smartors Site</a></i>)</li>
+	<li>Online Offline Status Mod 1.3.2 (<i>Romans1423 -
+	<a target="_blank" href="http://www.beckman-ministries.com">Ricks Site</a></i>)</li>
+	<li>Staff Site Mod 2.2.0 (<i>Acid -
+	<a target="_blank" href="http://www.phpbbhacks.com/forums/">Phpbbhacks</a></i>)</li>
+	<li>Bookmarks Mod 1.1.1a (<i>Philipp Kordowich -
+	<a target="_blank" href="http://phpbb.kordowich.net">Philipps Site</a></i>)</li>
+	<li>Admin Account Actions 1.2.1 (<i>Acid -
+	<a target="_blank" href="http://www.phpbbhacks.com/forums/">Phpbbhacks</a></i>)</li>
+	<li>Admin User Register Mod 0.10.4 (<i>Niels Chr. Denmark -
+	<a target="_blank" href="http://mods.db9.dk">mods.db9.dk</a></i>)</li>
+	<li>Complete Banner Mod 1.3.6 (<i>Niels Chr. Denmark -
+	<a target="_blank" href="http://mods.db9.dk">mods.db9.dk</a></i>)</li>
+	<li>Ranks summarize Mod 1.0.4 (<i>Pthirik -
+	<a target="_blank" href="http://rpgnet.clanmckeen.com/demo/">RPGNet</a></i>)</li>
+	<li>Number of Posts since last visit Mod 1.0.2 (<i>mitsubishi -
+	<a target="_blank" href="http://www.boardz.tk">Mitsubishis Site</a></i>)</li>
+	<li>Glow and Shadow effects BBcode Mod 2.0.6 (<i>davidls -
+	<a target="_blank" href="http://www27.brinkster.com/bb2c">Davidls Site</a></i>)</li>
+	<li>Shoutbox Mod 1.1.5 (<i>Niels Chr. Denmark -
+	<a target="_blank" href="http://mods.db9.dk">mods.db9.dk</a></i>)</li>
+	<li>Slash News Mod 1.0.1 (CodemonkeyX -
+	<a target="_blank" href="http://www.codemonkeyx.net">CodemonkeyX Site</a>)</li>
+	<li>Heavy Integration of Slash News Mod into EzPortal (own creation)</li>
+	<li>Smilie Creator Mod 1.0.3 (esperitox -
+	<a target="_blank" href="http://www.powerforum.de">Powerforum</a>)</li>
+	<li>Supercharged Album Pack 1 for Smartors Album Mod (Volodymyr (CLowN) 
+	Skoryk)</li>
+	<li>Tell a Friend Mod (unknown Version)</li>
+	<li>FI Navslices Mod (Viewtopic) (<i>Darren Burnhill -
+	<a target="_blank" href="http://www.forumimages.com">Forumimages</a></i>)</li>
+	<li>Who viewed a Topic Mod 1.0.3 (<i>Niels Chr. Denmark -
+	<a target="_blank" href="http://mods.db9.dk">mods.db9.dk</a></i>)</li>
+	<li>Print this Topic Mod 1.0.0 (unknown Version)</li>
+	<li>Recent Topics Mod 1.2.2 (<i>Acid -
+	<a target="_blank" href="http://www.phpbbhacks.com/forums/">Phpbbhacks</a></i>)</li>
+	<li>Hacks/Mods List 1.2.0 (<i>Nivisec -
+	<a target="_blank" href="http://www.nivisec.com/">Nivisec.com</a></i>)</li>
+	<li>Private Message Info in Browser Status Bar 1.0.0 (<i>Darren Burnhill -
+	<a target="_blank" href="http://www.forumimages.com">Forumimages</a></i>)</li>
+	<li>BBCode Highlight 1.2.0 (<i>davidls -
+	<a target="_blank" href="http://www27.brinkster.com/bb2c">Davidls Site</a></i>)</li>
+	<li>BBCode FlipV / FlipH Mod 1.6.0 (<i>Brewjah</i>)</li>
+	<li>Left and Right IMG tags 1.6.0 (<i>Nuttzy99 -
+	<a target="_blank" href="http://www.blizzhackers.com">Blizzhackers</a></i>)</li>
+	<li>PHP Syntax Highlighter BBCode 3.0.3 (<i>Fubonis -
+	<a target="_blank" href="http://www.fubonis.com">Fubonis Site</a></i>)</li>
+	<li>Board Statistics Mod 2.1.5 (<i>Meik Sievertsen -
+	<a target="_blank" href="http://www.opentools.de">Opentools</a></i>)</li>
+	<li>Advanced Links Mod 1.2.2b (<i>stefan2k1/CRLin -
+	<a target="_blank" href="http://www.phpbb2.de">phpBB2.de</a> /
+	<a target="_blank" href="http://mail.dhjh.tcc.edu.tw/~gzqbyr/">CRLin Site</a></i>)</li>
+	<li>Topic View Page Bottom Link (<i>Darren Burnhill -
+	<a target="_blank" href="http://www.forumimages.com">Forumimages</a></i>)</li>
+	<li>Smartors Photo Album Addon 2.x View Topic Link (<i>Darren Burnhill -
+	<a target="_blank" href="http://www.forumimages.com">Forumimages</a></i>)</li>
+	<li>Smartors Photo Album Addon 2.x Member List Link (<i>Darren Burnhill -
+	<a target="_blank" href="http://www.forumimages.com">Forumimages</a></i>)</li>
+	<li>Smartors Photo Album Addon 2.x View Profile Link (<i>Darren Burnhill -
+	<a target="_blank" href="http://www.forumimages.com">Forumimages</a></i>)</li>
+	<li>Google Search BBCode Mod 1.1.2 (wGEric -
+	<a target="_blank" href="http://eric.best-1.biz">wGErics Site</a>)</li>
+	<li>Yellow Card Mod 1.4.11 (<i>Niels Chr. Denmark -
+	<a target="_blank" href="http://mods.db9.dk">mods.db9.dk</a></i>)</li>
+	<li>Protect user account Mod 1.2.9 (<i>Niels Chr. Denmark -
+	<a target="_blank" href="http://mods.db9.dk">mods.db9.dk</a></i>)</li>
+	<li>BBCode Line-through Mod 1.0.2 (<i>Acid -
+	<a target="_blank" href="http://www.phpbbhacks.com/forums/">Phpbbhacks</a></i>)</li>
+	<li>Topic Description Mod 1.0.5 (<i>Morpheus2matrix -
+	<a target="_blank" href="http://morpheus.2037.biz">Morpheus Site</a></i>)</li>
+	<li>Prune users Mod 1.4.3 (<i>Niels Chr. Denmark -
+	<a target="_blank" href="http://mods.db9.dk">mods.db9.dk</a></i>)</li>
+	<li>eXtreme Styles mod 2.3.1 (<i>CyberAlien -
+	<a target="_blank" href="http://www.trushkin.net">Cyberaliens Site</a></i>)</li>
+	<li>Count Posts Mod 1.0.0 (<i>Antony Bailey</i>)</li>
+	<li>BBCode Box Mod 4.5.0 (with own Modifications) (AL Tnen)</li>
+	<li>Topic in Who is online Mod 1.2.9 (<i>Niels Chr. Denmark -
+	<a target="_blank" href="http://mods.db9.dk">mods.db9.dk</a></i>)</li>
+	<li>Bottom aligned signature Mod 1.0.3 (-=ET=- -
+	<a target="_blank" href="http://www.golfexpert.net/phpbb">ETs Site</a>)</li>
+	<li>Admin Userlist 1.1.0 (<i>Smartor -
+	<a target="_blank" href="http://smartor.is-root.com">Smartors Site</a></i>)</li>
+	<li>Admin Email List 1.0.2 (<i>Jamer -
+	<a target="_blank" href="http://www.jamer.co.uk/scripts/phpbb2">JamersPad</a></i>)</li>
+	<li>Minical 2.0.4 beta (<i>Netclectic -
+	<a target="_blank" href="http://www.netclectic.com">Netclectics Site</a></i>)</li>
+	<li>Moved Folder Mod 1.0.0 (<i>Darren Burnhill -
+	<a target="_blank" href="http://www.forumimages.com">Forumimages</a></i>)</li>
+	<li>Kontakt Mod 1.0.0 (<i>Carsten Schaefer</i>)</li>
+	<li>Acronyms Mod 0.9.5 (CodemonkeyX -
+	<a target="_blank" href="http://www.codemonkeyx.net">CodemonkeyX Site</a>)</li>
+	<li>Disable Board Message Mod 1.0.0 (<i>Sko22 -
+	<a target="_blank" href="http://www.quellicheilpc.com">Sko22s Site</a></i>)</li>
+	<li>Signature Editor/Preview Deluxe 1.0.0 (<i>EGO2000</i>)</li>
+	<li>ezPortal Admin for phpBB2 (<i>Marcus Thiel -
+	<a target="_blank" href="http://www.die-pretorianer.de">Markus Site</a></i>)</li>
+	<li>Absent User Mod 1.1.7 (<i>Oxpus 
+	- <a target="_blank" href="http://www.oxpus.de">Oxpus.de</a></i>)</li>
+	<li>Album Hierarchy Mod 1.1.0 (<i>IdleVoid</i>)</li>
+	<li>Portal Polls Upgrade 2.0.0 (<i>vgan)</i></li>
+	<li>Modcp Extension 1.1.3 (Netclectic - <i>
+	<a target="_blank" href="http://www.netclectic.com">Netclectics Site</a></i>)</li>
+	<li>Simply Merge Threads 1.0.1 (<i>Pthirik -
+	<a target="_blank" href="http://rpgnet.clanmckeen.com/demo/">RPGNet</a></i>)</li>
+	<li>Dates for Humans Mod 1.0.1 (<i>Lars Janssen -
+	<a target="_blank" href="http://www.ukmix.org">UKMix</a>)</i></li>
+	<li>Descriptive Time Zone Mod 1.0.2 (kender -
+	<a target="_blank" href="http://junebugbug.com">Kenders Site</a>)</li>
+	<li>Search Form in Viewforum 1.0.1 (<i>Meik Sievertsen -
+	<a target="_blank" href="http://www.opentools.de">Opentools</a></i>)</li>
+	<li>Google Visit Counter 1.0.0 (<i>Dr. DLP - 
+	<a target="_blank" href="http://www.web-lapin.levillage.org/forum/">Dr. DLPs Site</a></i>)</li>
+
+	<li>Fix message_die for multiple errors MOD 1.0.3 (<i>markus_petrux - 
+	<a target="_blank" href="http://www.phpmix.com">PHPmix</a></i>)</li>
+	<li>Search Engine ShortURLs Mod 1.0.0 (<i>Larsneo</i>)</li>
+	<li>Cracker Tracker Professional 4.1.7 (<i>Cback - 
+	<a target="_blank" href="http://www.cback.de">Cbacks Site</a></i>)</li>
+	<li>Run stats 1.0.2 (<i>Ptirhiik - 
+	<a target="_blank" href="http://ptifo.clanmckeen.com">Home of Categorie Hierarchy</a></i>)</li>
+	<li>Visual Confirmation for Guests 1.0.0 (<i>Kanuck - 
+	<a target="_blank" href="http://kanuck.net">Kanucks Site</a></i>)</li>
+	<li>Custom Profile Fields 1.1.0 (with own Modifications) (<i>Blankety Blank Man - 
+	<a target="_blank" href="http://edos.siteburg.com/phpBB2/index.php">Blankety Blank Mans Site</a></i>)</li>
+	<li>AJAX features 1.0.4 (<i>Alcaeus - 
+	<a target="_blank" href="http://www.alcaeus.org">Site</a></i>)</li>
+	<li>Advanced Visual Confirmation 1.1.0 (<i>AmigaLink - 
+	<a target="_blank" href="http://www.amigalink.de">Site</a></i>)</li>
+</ul>
+<p>
+Die aktuelle Version von phpBB2 Plus kann auf
+<a href="http://www.phpbb2plus.de">phpbb2plus.de</a> angesehen werden. (Der 
+hier verwendete Code kann von der aktuell freigegebenen Version abweichen !) </p>
+
+<a name="languages"><h3>Sprachen</h3></a>
+
+Dieses Paket beinhaltet als Sprache nur Englisch. Weitere Sprachen können, 
+sobald sie fertiggestellt wurden, in Downloadbereich auf
+<a href="http://www.phpbb2.de">www.phpbb2.de</a> heruntergeladen werden.<a name="freshinstallation"><h3>
+Neue Installation</h3></a>
+
+<ol>
+  <li>Entpacke das Archiv und lade alle Dateien des Ordners phpBB2 in ein Verzeichnis Deines 
+  Webservers, z.B. /phpBB2/<li>Starte den Installer im Browser
+  <a href="http://my.forums.com/phpBB2/install/install.php">
+  http://www.deinforum.de/phpBB2/install/install.php</a> (ersetze 
+  www.deinforum.de/phpBB2/ 
+  mit dem Pfad <b>DEINES</b> Forums !)<li>Gib alle Notwendigen Daten in der 
+  Maske ein und beende die Installation.<li>Löscht den Ordner /install.
+  <li>Setzt für die Ordner und Dateien die benötigten Rechte &quot;<a href="#CHMOD">Datei- und Ordnerrechte bei *NIX-Servern</a>&quot;
+  <li>Du kannnst das Forum jetzt benutzen ;)</ol>
+
+<a name="upgrade_plus"><h3>Update einer bereits existierenden phpBB2 Plus 1.52 Version</h3></a>
+<ol><li>Es ist wichtig das die Schritte <b><font color="#FF0000">genau</font></b> befolgt werden, ansonsten könnte es grössere Probleme geben !
+<li>
+	<font color="#FF0000">Macht ein Backup aller Daten ! Alle Dateien des FTPs und 
+  der SQL Datenbank ! Heult nicht wenn etwas fehlschlägt und dann euer Forum mit 
+  allen Usern und Beiträgen den Bach runter ist ! Also nochmal, macht ein Backup 
+	!!!!</font>
+  <li><font color="#FF0000">Insbesondere benötigt Ihr im Laufe des 
+	Updates wieder die folgenden Verzeichnisse Eures alten Forums: </font>/album_mod/upload, 
+	album_mod/upload/cache, images/avatars, images/smiles, files, images/avatars/gallery, 
+	images/ranks, /pafiledb/images/screenshots, /pafiledb/uploads  
+	also sichert sie !!!
+	<li>Kopiert <b><font color="#FF0000">ALS ALLERERSTES NUR</font></b> den Ordner
+  update/ 
+  in 
+  das Root Directory Eures existierenden Forums.
+	<li>Logt ins Forum als 
+  Administrator ein
+	<li>Öffnet den grade upgeloadeten Ordneri im Browser (http://www.deinforum.de/phpBB2/update/index.php). 
+	F&uuml;hrt die Punkte der reihe nach aus, bitte nicht nervös werden, die Dateien sind etwas grösser und das Update nimmt 
+	etwas Zeit in Anspruch.<li>Ladet die Datei config.php Eures &quot;alten&quot; Forums auf die lokale Festplatte 
+  runter<b> und sichert sie irgendwo dort !!!</b> (<font color="#FF0000">Ihr 
+  braucht sie später wieder !</font>)<li>Löscht anschliessend <b>alle Dateien</b> 
+	Eures alten Forums auf dem Webspace. (<font color="#FF0000">Backup natürlich 
+	längst gemacht!</font>) Bitte löscht wirklich alle Dateien. Ansonsten gibts 
+	hinterher Probleme !
+  <li>Kopiert anschliessend alle Dateien aus dem Ordner phpBB2 
+	aus dem Archiv der Plus 1.53 auf den Webspace.<li>Kopiert die Datei config.php, welche Ihr vorhin gesichert habt wieder ins Root 
+  Eures Forums 
+  und überschreibt die dortige<li>Kopiert die Dateien der vorher gesicherten 
+	Ordner /album_mod/upload, album_mod/upload/cache, images/avatars, images/smiles, images/avatars/gallery, /pafiledb/images/screenshots, /pafiledb/uploads
+	files wieder zurück in die entsprechenden 
+	Verzeichnisse des neuen Forums.<li>
+	<u>Bei der Rangbildern ist es jedoch so, diese m&uuml;ssen aus dem Ordner images/ranks nach <strong>templates/fisubsilversh/images/lang_****/ranks</strong> kopiert werden</u>, au&szlig;erdem f&uuml;r jede installierte Sprache und jedes Template in das daf&uuml;r vorgesehene Verzeichnis.
+<li>Setzt für die Ordner und Dateien die benötigten Rechte &quot;<a href="#CHMOD">Datei- und Ordnerrechte bei *NIX-Servern</a>&quot;<li>Das wars, jetzt sollte Version 1.53 
+  basierend auf phpBB 2.0.21 laufen.</ol>
+  
+  
+  <a name="upgrade"><h3>Update einer bereits existierenden phpBB 2.0.XX Version</h3></a>
+
+<ol>
+  <li>Falls Ihr in Eurem Forum bereits Mods installiert habt, die Änderungen an 
+  der Datenbank vorgenommen haben könnte es Probleme beim der Installation der 
+  Plus Version geben. Das im Paket enthaltene Update-Script legt nur neue 
+  Tabellen an, kann auf keinen Fall vorhandene Tabellen auf den aktuellen Stand 
+  bringen. Wenn Ihr also eine &quot;normale&quot; phpBB2.0.8-2.0.21 einsetzt, alles kein Problem. 
+  Wenn Ihr schon Mods einsetzt solltet Ihr diese vorher nach Anleitung des 
+  jeweiligen Mods auf die Version updaten, die in der Plus Version enthalten ist 
+  (siehe Liste am Anfang dieser Datei). Anschliessend könnt Ihr nach dieser 
+  Anleitung updaten. Solltet Ihr keine Mods eingebaut haben, ignoriert diesen 
+  Abschnitt einfach ;)<li>
+  <font color="#FF0000">Macht ein Backup aller Daten ! Alle Dateien des FTPs und 
+  der SQL Datenbank ! Heult nicht wenn etwas fehlschlägt und dann euer Forum mit 
+  allen Usern und Beiträgen den Bach runter ist !</font><li>
+  <font color="#FF0000">Insbesondere benötigt Ihr im Laufe des Updates wieder 
+	die folgenden Verzeichnisse Eures alten Forums: </font>images/avatars, 
+	images/smiles, files, images/ranks, images/avatars/gallery, also sichert sie !!!<li>Entpackt das Archiv 
+  der Plus Version in ein Verzeichnis auf Eurer Festplatte<li>Kopiert <b>
+  <font color="#FF0000">NUR</font></b> den Ordner update/ in das Root 
+  Directory Eures existierenden (alten) Forums, <b><font color="#FF0000">AUF 
+  KEINEN FALL DIE ANDEREN DATEIEN !!!!!</font></b><li>Logt in Euer Forum als 
+  Administrator ein<li>
+  Öffnet den grade upgeloadeten Ordner im Browser (http://www.deinforum.de/phpBB2/update/index.php und geht die einzelnen Schritte der Reihe nach durch<li>
+  Ihr solltet dabei sehen, das de benötigten Tabellen angelegt werden (Added/Updated)<li>
+  Ladet die Datei config.php Eures &quot;alten&quot; Forums auf die lokale Festplatte 
+  runter<b> und sichert sie irgendwo dort !!!</b> (<font color="#FF0000">Ihr 
+  braucht sie später wieder !</font>)<li>Falls bereits ein Attachment Mod 
+  installiert war sichert auf jeden Fall das Verzeichnis /files. Ebenfalls 
+  sollte Ihr die bereits existierenden Avatare der User sichern (Verzeichnis images/avatars/..)<li>Habt Ihr schon das Backup der alten Daten gemacht ? 
+  Falls nein, jetzt ist definitiv die letzte Möglichkeit dazu !<li>
+  Löscht nun <b>alle</b> Dateien des alten Forums.
+  <li>Kopiert alle Dateien des Ordners 
+  phpBB2 des phpBB2 
+  Plus 1.53 Paketes auf den Webserver (bitte Verzeichnis Struktur beibehalten !)<li>Falls bei vorhandenem alten Attachment Mod die Attachments wieder verwendet 
+    werden sollen das Verzeichnis /files wieder uploaden. Die Alten Avatare der 
+    User können ebenfalls wieder upgeloadet werden, genauso die Smilies der alten 
+    Forums.
+  <li> Bei der Rangbildern ist es jedoch so, diese m&uuml;ssen aus dem Ordner images/ranks nach <strong>templates/fisubsilversh/images/lang_****/ranks</strong> kopiert werden, au&szlig;erdem f&uuml;r jede installierte Sprache und jedes Template in das daf&uuml;r vorgesehene Verzeichnis
+  <li>Kopiert die Datei config.php, welche Ihr vorhin gesichert habt wieder ins Root 
+    und überschreibt die dortige
+  
+  <li>Löscht das Verzeichnis /install 
+  <li>
+  Ändert die Rechte wie hier aufgef&uuml;hrt &quot;<a href="#CHMOD">Datei- und Ordnerrechte bei *NIX-Servern</a>&quot;
+  <li>
+  Jetzt könnt Ihr das neue Forum benutzen ;)
+  </ol>
+  
+
+<a name="upgrade2">
+<h3>Update einer bereits existierenden phpBB Plus 1.51 Version 
+oder niedriger</h3>
+</a>
+Updates einer niedrigeren Version als phpBB Plus 1.52 werden nicht unterstützt. 
+Falls dennoch phpBB2 Plus 1.53 verwendet werden soll muss das vorhandene phpBB Plus 1.51 oder niedriger erst auf die Plus 1.52 upgedated werden. Das 
+phpBB Plus 1.52 kann auf<a href="http://www.phpbb2.de">www.phpbb2.de</a> downgeloadet werden. Eine 
+Update-Beschreibung ist im Archiv enthalten. Wenn das Update erfolgreich 
+durchgeführt wurde kann mit dem Update auf phpBB2 Plus 1.53 begonnen werden, wie 
+das geht steht <a href="#upgrade_plus">in diesem Kapitel beschrieben</a>.<br>
+  
+<a name="CHMOD">
+<h3>Datei- und Ordnerrechte bei *NIX-Servern</h3>
+</a>
+
+
+<h4>CHMOD to 777</h4>
+
+<ul>
+<li>/album_mod/upload
+<li>/album_mod/upload/cache
+<li>/cache
+<li>/files
+<li>/files/thumbs
+<li>/images/avatars
+<li>/pafiledb/cache
+<li>/pafiledb/cache/templates
+<li>/pafiledb/images/screenshots
+<li>/pafiledb/uploads
+</ul>
+<h4>CHMOD to 666</h4>
+<ul>
+  <li>/includes/def_icons.php
+  <li>/includes/def_themes.php
+  <li>/includes/def_tree.php
+  <li>/includes/def_words.php
+  <li>/ctracker/logs/counter.txt
+  <li>/ctracker/logs/logfile_flood.txt
+  <li>/ctracker/logs/logfile_proxy.txt
+  <li>/ctracker/logs/logfile_worms.txt
+  </li>
+</ul>
+<br><br>
+
+
+
+
+<a name="settings"><h3>Einstellungen nach der Installation</h3></a>
+<p>Geh ins Admin Panel und wähle den Punkt <i>Plus -&gt; Konfiguration</i> und 
+trage dort <b>Deine E-Mail Adresse ein</b>, unter der Du die Nachrichten empfangen 
+möchtest, die über das Kontakt-Formular abgeschickt werden. Wenn Du hier keine 
+gültige Adresse einträgst wirst Du niemals eine EMail über das Kontaktformular 
+empfangen !</p>
+<p>Geh ins Admin Panel und wähle den Punkt <i>Gruppen -&gt; Farbgruppen </i>und 
+konfiguriere dort Deine Farbgruppen und deren Mitglieder. Wenn Du z.B. 
+Administrator des Boards bist, dann füge Dich zur Gruppe der Administratoren 
+hinzu, ansonsten wirst Du in der Liste der Online User als normaler User 
+erscheinen (in der gleichen Farbe). Das gleiche gilt z.B. auch für die 
+Moderatoren.</p>
+<p>&nbsp;</p>
+</p></a><li>
+
+
+<a name="license"><h3>Lizenz</h3></a>
+
+<p>
+phpBB is Copyright &copy; 2001,2002,2003,2004&nbsp; <a href="http://www.phpbb.com/" target="_blank">phpBB Group</a>.
+<p><a name="faq"><h3>Häufig gestellte Fragen (FAQ)</h3></a>
+
+<b>Kann ich mein eigenes Template verwenden ?</b>
+<br>
+Im Prinzip ist das schon möglich, aber sämtliche eingebauten Mods der phpBB2 
+Plus Version benötigen Änderungen am Template. Falls Du also immer noch davon 
+überzeugt bist Dein eigenes Template verwenden zu wollen schau Dir mal genauer 
+dieses Readme File an, denn oben stehen sämtliche integrierten Mods incl. der 
+Versionsnummern. Diese brauchst Du jetzt. Suche in diesen nach allen Änderungen an *.tpl, *.cfg und *.css 
+files. Die musst Du dann manuell an Deinem neuen Template selbst vornehmen, 
+danach sollte das Template dann kompatibel sein und funktionieren. Verändere 
+KEINE *.php Files ! Falls Du das Template auch anderen phpBB2 Plus Benutzern zur 
+Verfügung stellen möchtest wäre es nett, wenn Du es auf
+<a href="http://www.phpbb2.de">www.phpbb2.de</a> einsendest. <p>
+
+<b>Warum ist MOD x oder y nicht integriert?</b>
+<br>
+Ich wollte kein bis unter die Decke mit Mods vollgepacktes System erstellen. Ich 
+habe die Mods integriert, die meiner Meinung nach in der Standard-Version von 
+phpBB2.0.8 fehlen und sinnvolle, bzw. notwendige Funktionen darstellen. Auf 
+keinen Fall möchte ich eine Version nach dem Motto &quot;je mehr Mods desto besser&quot;, 
+ein solches Projekt gibt es bereits, jeder muss für sich entscheiden was er 
+davon hält. Falls Du gerne andere Mods in Deiner Version enthalten hättest, 
+kannst Du das in unserem <a target="_blank" href="http://www.phpbb2.de">Forum</a> kundtun, vielleicht erscheint der Mod ja in einer kommenden Version.<p>
+
+<b>Ich benötige eine andere Sprache als Deutsch oder Englisch, was nun ?</b>
+<br>
+Falls eine andere Sprache verwendet werden soll und diese nicht auf
+<a href="http://www.phpbb2.de">www.phpbb2.de</a> als Download erhältlich ist 
+müsst Ihr selbst an die Arbeit gehen. Besorgt Euch von
+<a href="http://www.phpbb.com">www.phpbb.com</a> die passende Sprachdatei der 
+phpBB 2.0.21 und nehmt die Englische Version der phpBB2 Plus 1.53 her. Alle 
+Einträge, die die Datei der Plus Version am Ende mehr hat müsst Ihr in die 
+gewünschte Sprache selbst übersetzen und diese Zeilen dann ans Ende der 
+Originaldatei anhängen (vor dem ?&gt;). Anschliessend seid Ihr im Besitz von neuen 
+Sprachfiles in Eurer gewünschten Sprache. Falls Ihr die Sprache auch anderen 
+Usern zur Verfügung stellen wollt wäre es schön, wenn Ihr diese auf
+<a href="http://www.phpbb2.de">www.phpbb2.de</a> einsendet.
+<p><a name="thx"><h3>Danksagungen</h3></a>
+<p>
+Mein grösster Dank geht an Karsten (<i>Oxpus</i>) der mich beim Coding und 
+Bugfixing unterstützt hat ! Ihr sollte
+<a target="_blank" href="http://www.oxpus.de">seine Seite</a> besuchen, da er 
+einige sehr gute MODs für phpBB2 geschrieben hat und in seinem Forum ebenfalls 
+ausgezeichneten Support für phpBB2 bietet.</p>
+
+
+<a name="support"><h3>Support</h3></a>
+
+Bitte verwendet unser <a target="_blank" href="http://www.phpbb2.de">Support 
+Forum</a> für Fragen oder falls ein Bug gefunden wurde.
+
+
+<a name="history"><h3>History</h3>
+</a>
+<i>Version 1.53 (2006-04-08)</i>
+<ul>
+  <li>Achte Release (phpBB 2.0.20 Code, Mod-Updates, viele Bugfixes, neue Funktionen und PHP5 + MySQL5 Anpassungen)</li>
+</ul>
+
+<i>Version 1.52 (2004-07-18)</i>
+<ul>
+  <li>Siebte Release (phpBB 2.0.10 Code, einige Bugfixes, eXtreme Styles Mod 
+	Update auf 2.0.0 RC5)</li>
+</ul>
+
+<i>Version 1.51 (2004-07-14)</i>
+<ul>
+  <li>Sechste Release (phpBB 2.0.9 Code, einige Bugfixes, eXtreme Styles Mod 
+	Update auf 2.0.0 RC4)</li>
+</ul>
+
+<i>Version 1.5 (2004-07-11)</i>
+<ul>
+  <li>Fünfte Release (phpBB 2.0.8(a) Code, Komplett neue Version, Profile 
+	Control Panel Mod und Nickpage Mod entfernt, dafür einige zusätzliche Mods)</li>
+</ul>
+
+<i>Version 1.4 (2004-01-xx)</i>
+<ul>
+  <li>Interne Beta Version, keine Public Release</li>
+</ul>
+
+<i>Version 1.3 (2003-09-12)</i>
+<ul>
+  <li>Vierte Release (phpBB 2.0.6 Code, Komplett neues Forum mit aktuellen 
+  Mod-Versionen, einige zusätzliche Mods)</li>
+</ul>
+
+<i>Version 1.2 (2003-07-03)</i>
+<ul>
+  <li>Dritte Release (phpBB 2.0.5 Code, Bugfixes und einige zusätzliche Mods)</li>
+</ul>
+
+<i>Version 1.1 (2003-05-09)</i>
+<ul>
+  <li>Zweite Release (Bugfixes und einige zusätzliche Mods)</li>
+</ul>
+
+<i>Version 1.0 (01-03-2003)</i>
+<ul>
+  <li>Erste Release</li>
+</ul>
+
+</body>
+</html>

@@ -1,0 +1,26 @@
+#################################
+#CHMOD to 777
+#######
+/album_mod/upload
+/album_mod/upload/cache
+/cache
+/files
+/files/thumbs
+/images/avatars
+/pafiledb/cache
+/pafiledb/cache/templates
+/pafiledb/images/screenshots
+/pafiledb/uploads
+
+
+#################################
+#CHMOD to 666
+#######
+/includes/def_icons.php
+/includes/def_themes.php
+/includes/def_tree.php
+/includes/def_words.php
+/ctracker/logs/counter.txt
+/ctracker/logs/logfile_flood.txt
+/ctracker/logs/logfile_proxy.txt
+/ctracker/logs/logfile_worms.txt

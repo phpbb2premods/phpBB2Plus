@@ -1,0 +1,57 @@
+#########################################################################
+# Rename this file to symbolize your hack uniquely...
+# Just make SURE IT HAS A .hl extension
+#
+# This is HL not h1 (one)...l as in lake, lick, etc
+#
+# Examples:
+# hacks_list_nivisec.hl
+# hacks__hacks_list__by_nivisec.hl
+#
+# You can look for the .hl file in the hl/ sub-directory of the files
+# distributed with this hack for an example.
+#########################################################################
+# This is used with Admin Hacks List to auto-insert information about
+# this particular hack.
+#
+# You need to enter the three required fields and then any or all of
+# the optional fields.
+#
+# Lines starting with a # are considered comments.
+#
+# Fields must be enclosed by quotes like "text" or they may not be
+# correctly parsed.  If you need to use a " in your fields, put a \"
+# instead.
+#########################################################################
+# Instruct your users to upload this to their hacks list management
+# directory (default is hl/ under the root path) or their main
+# phpbb directory if they want it auto-inserted into the list.
+#
+# It will search the main root path of phpbb / and the sub-dir of 
+# the management directory (default hl/) for any .hl files.
+#
+#########################################################################
+#
+# Required Variables
+#
+#    These are required for your hack to be auto-inserted
+#########################################################################
+
+Name = "Hack Name"
+Description = "This is a short description of your hack."
+Author = "Your Name"
+
+#########################################################################
+#
+# Optional Variables
+#
+#    These are optional.  To have it ignored, use "" as the entry.
+#
+#    Author Email may be in the form of user@host.com or 
+#    user at host dot com and work fine with either.
+#########################################################################
+
+Version = "Hack Version such as 1.0.0"
+Download_URL = "A link for downloading this hack"
+Author_EMAIL = "Author email"
+Author_WEB = "Author website"

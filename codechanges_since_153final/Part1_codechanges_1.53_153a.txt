@@ -1,0 +1,1411 @@
+##############################################################
+## MOD Title: Codechange 1.53 to 1.53a Part 1
+## MOD Author: Titus
+## MOD Description: n/a
+## MOD Version: 1.0.0
+##
+## Installation Level: n/a
+## Installation Time: 
+## Files To Edit: n/a
+##                common.php
+##                login.php
+##                kb.php
+##                posting.php
+##                profile.php
+##                topic_view_users.php
+##                viewonline.php
+##                admin/index.php
+##                admin/admin_hacks_list.php
+##                admin/admin_mass_email.php
+##                admin/admin_forumauth.php
+##                album_mod/album_hierarchy_sql.php
+##                includes/constants.php
+##                includes/functions_calendar.php
+##                includes/functions_categories_hierarchy.php
+##                includes/functions_color_groups.php
+##                includes/functions_kb.php
+##                includes/kb_constants.php
+##                includes/kb_cat.php
+##                includes/news_common.php
+##                includes/usercp_avatar.php
+##                includes/usercp_register.php
+##                login.php
+##                posting.php
+##                profile.php
+##                pafiledb/includes/pafiledb_constants.php
+##                language/lang_english/lang_admin.php
+##                language/lang_english/lang_admin_captcha.php
+##                language/lang_german/lang_admin.php
+##                templates/fisubsilversh/memberlist_body.tpl
+##                templates/fisubsilversh/profil_add_body.tpl
+##                templates/fisubsilversh/viewforum_body.tpl
+##
+## Included Files: n/a
+##                admin/admin_attachments.php
+##                admin/admin_extensions.php
+##                admin/admin_ct_blocker.php
+##                admin/admin_ct_footer.php
+##                admin/admin_ct_logs.php
+##                attach_mod/posting_attachments.php
+##                attach_mod/includes/constants.php
+##                attach_mod/includes/functions_admin.php
+##                attach_mod/includes/functions_attach.php
+##                ctracker/ct_confirm.php
+##                ctracker/ct_confirm_adv.php
+##                ctracker/ct_footer.php
+##                ctracker/ct_functions.php
+##                ctracker/ct_ipblocker.php
+##                ctracker/ct_security.php
+##                includes/usercp_confirm.php
+##                includes/usercp_confirm_adv.php
+##                download.php
+##
+##############################################################
+## For Security Purposes, Please Check: http://www.phpbb.com/mods/downloads/ for the
+## latest version of this MOD. Downloading this MOD from other sites could cause malicious code
+## to enter into your phpBB Forum. As such, phpBB will not offer support for MODs not offered
+## in our MOD-Database, located at: http://www.phpbb.com/mods/downloads/
+##############################################################
+## Before Adding This MOD To Your Forum, You Should Back Up All Files Related To This MOD
+##############################################################
+# 
+#-----[ SQL ]------------------------------------------------ 
+# 
+
+upload update/*.* to youre rootforum and execute update/index.php with all steps
+
+# 
+#-----[ COPY ]------------------------------------------------ 
+# 
+copy /phpBB2/download.php to /download.php
+copy /phpBB2/admin/admin_attachments.php to /admin/admin_attachments.php
+copy /phpBB2/admin/admin_ct_blocker.php to /admin/admin_ct_blocker.php
+copy /phpBB2/admin/admin_ct_footer.php to /admin/admin_ct_footer.php
+copy /phpBB2/admin/admin_ct_logs.php to /admin/admin_ct_logs.php
+copy /phpBB2/admin/admin_extensions.php to /admin/admin_extensions.php
+copy /phpBB2/attach_mod/posting_attachments.php to /attach_mod/posting_attachments.php
+copy /phpBB2/attach_mod/includes/constants.php to /attach_mod/includes/constants.php
+copy /phpBB2/attach_mod/includes/functions_admin.php to /attach_mod/includes/functions_admin.php
+copy /phpBB2/attach_mod/includes/functions_attach.php to /attach_mod/includes/functions_attach.php
+copy /phpBB2/ctracker/ct_confirm.php to /ctracker/ct_confirm.php
+copy /phpBB2/ctracker/ct_confirm_adv.php to /ctracker/ct_confirm_adv.php
+copy /phpBB2/ctracker/ct_footer.php to /ctracker/ct_footer.php
+copy /phpBB2/ctracker/ct_functions.php to /ctracker/ct_functions.php
+copy /phpBB2/ctracker/ct_ipblocker.php to /ctracker/ct_ipblocker.php
+copy /phpBB2/ctracker/ct_security.php to /ctracker/ct_security.php
+copy /phpBB2/includes/usercp_confirm.php to /includes/usercp_confirm.php
+copy /phpBB2/includes/usercp_confirm_adv.php to /includes/usercp_confirm_adv.php
+
+
+#
+#-----[ OPEN ]------------------------------------------
+#
+common.php
+
+#
+#-----[ AFTER, ADD ]------------------------------------------
+#
+//
+// CBACK.de CrackerTracker
+// Worm&Exploit Protection Engine
+//
+include($phpbb_root_path . "ctracker/ct_security." . $phpEx);
+
+#
+#-----[ FIND ]------------------------------------------
+#
+$cache_dir = $phpbb_root_path . '/cache';
+
+#
+#-----[ REPLACE WITH ]------------------------------------------
+#
+$cache_dir = $phpbb_root_path . 'cache';
+
+#
+#-----[ FIND ]------------------------------------------
+#
+			$write_string .= "'".$row['config_name']."'=>'".addslashes($row['config_value'])."',\n";
+
+#
+#-----[ REPLACE WITH ]------------------------------------------
+#
+			$write_string .= "'".$row['config_name']."'=> ".(( is_numeric($row['config_value']) ) ? $row['config_value'].",\n" : "'".addslashes($row['config_value'])."',\n");
+
+#
+#-----[ FIND ]------------------------------------------
+#
+			$write_string .= "'".$row['config_name']."'=>'".addslashes($row['config_value'])."',\n";
+
+#
+#-----[ REPLACE WITH ]------------------------------------------
+#
+			$write_string .= "'".$row['config_name']."'=> ".(( is_numeric($row['config_value']) ) ? $row['config_value'].",\n" : "'".addslashes($row['config_value'])."',\n");
+
+#
+#-----[ FIND ]------------------------------------------
+#
+				$write_string .= "'".$row['name']."'=>'".addslashes($row['value'])."',\n";
+
+#
+#-----[ REPLACE WITH ]------------------------------------------
+#
+				$write_string .= "'".$row['name']."'=> ".(( is_numeric($row['value']) ) ? $row['value'].",\n" : "'".addslashes($row['value'])."',\n");
+
+#
+#-----[ OPEN ]------------------------------------------
+#
+login.php
+
+#
+#-----[ FIND ]------------------------------------------
+#
+		include($phpbb_root_path . 'ctracker/ct_confirm.'.$phpEx);
+
+#
+#-----[ REPLACE WITH ]------------------------------------------
+#
+		if (function_exists(imagettftext) && defined('ADV_CAPTCHA'))
+			include($phpbb_root_path . 'ctracker/ct_confirm_adv.'.$phpEx);
+		else
+			include($phpbb_root_path . 'ctracker/ct_confirm.'.$phpEx);
+
+#
+#-----[ OPEN ]------------------------------------------
+#
+kb.php
+
+#
+#-----[ FIND ]------------------------------------------
+#
+		 include($module_root_path. 'includes/kb_moderator.'.$phpEx);
+
+#
+#-----[ REPLACE WITH ]------------------------------------------
+#
+		 include($phpbb_root_path. 'includes/kb_moderator.'.$phpEx);
+
+#
+#-----[ OPEN ]------------------------------------------
+#
+profile.php
+
+#
+#-----[ FIND ]------------------------------------------
+#
+		include($phpbb_root_path . 'includes/usercp_confirm.'.$phpEx);
+
+#
+#-----[ REPLACE WITH ]------------------------------------------
+#
+		if (function_exists(imagettftext) && defined('ADV_CAPTCHA'))
+			include($phpbb_root_path . 'includes/usercp_confirm_adv.'.$phpEx);
+		else
+			include($phpbb_root_path . 'includes/usercp_confirm.'.$phpEx);
+
+#
+#-----[ OPEN ]------------------------------------------
+#
+topic_view_users.php
+
+#
+#-----[ FIND ]------------------------------------------
+#
+//
+// Start session management
+//
+$userdata = session_pagestart($user_ip, PAGE_TOPIC_VIEW);
+init_userprefs($userdata);
+//
+// End session management
+//
+
+// Start add - Who viewed a topic MOD
+if ( isset($_GET[POST_TOPIC_URL]) )
+{
+	$topic_id = intval($_GET[POST_TOPIC_URL]);
+}
+else if ( isset($_POST[POST_TOPIC_URL]) )
+{
+	$topic_id = intval($_POST[POST_TOPIC_URL]);
+}
+
+#
+#-----[ REPLACE WITH ]------------------------------------------
+#
+
+// Start add - Who viewed a topic MOD
+if ( isset($_GET[POST_TOPIC_URL]) )
+{
+	$topic_id = intval($_GET[POST_TOPIC_URL]);
+}
+else if ( isset($_POST[POST_TOPIC_URL]) )
+{
+	$topic_id = intval($_POST[POST_TOPIC_URL]);
+}
+else
+	message_die(GENERAL_MESSAGE, 'Topic_post_not_exist');
+
+//
+// Start session management
+//
+$userdata = session_pagestart($user_ip, PAGE_TOPIC_VIEW, $topic_id);
+init_userprefs($userdata);
+//
+// End session management
+//
+
+#
+#-----[ OPEN ]------------------------------------------
+#
+viewonline.php
+
+#
+#-----[ FIND ]------------------------------------------
+#
+				$location_url = "topic_view_users.$phpEx"; 
+
+#
+#-----[ REPLACE WITH ]------------------------------------------
+#
+				$location_url = ($row['session_topic']) ? "topic_view_users.$phpEx?" . POST_TOPIC_URL . '=' .$row['session_topic'] : '#'; 
+
+#
+#-----[ OPEN ]------------------------------------------
+#
+admin/index.php
+
+#
+#-----[ FIND ]------------------------------------------
+#
+define('IN_PHPBB', 1);
+
+#
+#-----[ AFTER, ADD ]------------------------------------------
+#
+define('PCheck', true);
+
+#
+#-----[ FIND ]------------------------------------------
+#
+			"L_NO_GUESTS_BROWSING" => $lang['No_users_browsing'])
+		);
+	}
+
+#
+#-----[ AFTER, ADD ]------------------------------------------
+#
+
+
+	if (defined('PCheck'))
+	{
+		$ffperms = '';
+		#################################
+		#CHMOD to 777
+		#######
+		if (!is_writable($phpbb_root_path . 'album_mod/upload')) $ffperms .= '<br /> /album_mod/upload >> ' . $lang['File_not_writable_777'];
+		if (!is_writable($phpbb_root_path . 'album_mod/upload/cache')) $ffperms .= '<br /> /album_mod/upload/cache >> ' . $lang['File_not_writable_777'];
+		if (!is_writable($phpbb_root_path . 'cache')) $ffperms .= '<br /> /cache >> ' . $lang['File_not_writable_777'];
+		if (!is_writable($phpbb_root_path . 'files')) $ffperms .= '<br /> /files >> ' . $lang['File_not_writable_777'];
+		if (!is_writable($phpbb_root_path . 'files/thumbs')) $ffperms .= '<br /> /files/thumbs >> ' . $lang['File_not_writable_777'];
+		if (!is_writable($phpbb_root_path . 'images/avatars')) $ffperms .= '<br /> /images/avatars >> ' . $lang['File_not_writable_777'];
+		if (!is_writable($phpbb_root_path . 'pafiledb/cache')) $ffperms .= '<br /> /pafiledb/cache >> ' . $lang['File_not_writable_777'];
+		if (!is_writable($phpbb_root_path . 'pafiledb/cache/templates')) $ffperms .= '<br /> /pafiledb/cache/templates >> ' . $lang['File_not_writable_777'];
+		if (!is_writable($phpbb_root_path . 'pafiledb/images/screenshots')) $ffperms .= '<br /> /pafiledb/images/screenshots >> ' . $lang['File_not_writable_777'];
+		if (!is_writable($phpbb_root_path . 'pafiledb/uploads')) $ffperms .= '<br /> /pafiledb/uploads >> ' . $lang['File_not_writable_777'];
+		#################################
+		#CHMOD to 666
+		#######
+		if (!is_writable($phpbb_root_path . 'includes/def_icons.php')) $ffperms .= '<br /> /includes/def_icons.php >> ' . $lang['File_not_writable_666'];
+		if (!is_writable($phpbb_root_path . 'includes/def_themes.php')) $ffperms .= '<br /> /includes/def_themes.php >> ' . $lang['File_not_writable_666'];
+		if (!is_writable($phpbb_root_path . 'includes/def_tree.php')) $ffperms .= '<br /> /includes/def_tree.php >> ' . $lang['File_not_writable_666'];
+		if (!is_writable($phpbb_root_path . 'includes/def_words.php')) $ffperms .= '<br /> /includes/def_words.php >> ' . $lang['File_not_writable_666'];
+		if (!is_writable($phpbb_root_path . 'ctracker/logs/counter.txt')) $ffperms .= '<br /> /ctracker/logs/counter.txt >> ' . $lang['File_not_writable_666'];
+		if (!is_writable($phpbb_root_path . 'ctracker/logs/logfile_flood.txt')) $ffperms .= '<br /> /ctracker/logs/logfile_flood.txt >> ' . $lang['File_not_writable_666'];
+		if (!is_writable($phpbb_root_path . 'ctracker/logs/logfile_proxy.txt')) $ffperms .= '<br /> /ctracker/logs/logfile_proxy.txt >> ' . $lang['File_not_writable_666'];
+		if (!is_writable($phpbb_root_path . 'ctracker/logs/logfile_worms.txt')) $ffperms .= '<br /> /ctracker/logs/logfile_worms.txt >> ' . $lang['File_not_writable_666'];
+	}
+
+
+#
+#-----[ FIND ]------------------------------------------
+#
+	$version_info .= '<p>' . $lang['Mailing_list_subscribe_reminder'] . '</p>';
+	
+
+#
+#-----[ AFTER, ADD ]------------------------------------------
+#
+	if (defined('PCheck') && $ffperms)
+		$version_info .= '<p><br /><hr><h4>' . $lang['Permission_Check'] . '</h4>' . $ffperms . '</p><hr><br /><p>';
+		
+# 
+#-----[ OPEN ]------------------------------------------ 
+# 
+admin/admin_hacks_list.php 
+
+# 
+#-----[ FIND ]------------------------------------------ 
+# 
+$phpbb_root_path = '../';
+if( !empty($setmodules) )
+{
+	include($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/lang_admin_hacks_list.' . $phpEx);
+	$filename = basename(__FILE__);
+	$module['General']['Hacks_List'] = $filename;
+	
+	return;
+}
+
+include($phpbb_root_path . 'extension.inc');
+(file_exists('pagestart.' . $phpEx)) ? include('pagestart.' . $phpEx) : include('pagestart.inc');
+
+# 
+#-----[ REPLACE WITH ]------------------------------------------ 
+# 
+if( !empty($setmodules) )
+{
+	$filename = basename(__FILE__);
+	$module['General']['Hacks_List'] = $filename;
+	
+	return;
+}
+
+$phpbb_root_path = './../';
+require($phpbb_root_path . 'extension.inc');
+require('./pagestart.' . $phpEx);
+
+# 
+#-----[ OPEN ]------------------------------------------ 
+# 
+admin/admin_forumauth.php 
+
+# 
+#-----[ FIND ]------------------------------------------ 
+# 
+	//-- mod : categories hierarchy --------------------------------------------------------------------
+//-- add
+	cache_tree(true);
+
+# 
+#-----[ AFTER, ADD ]------------------------------------------ 
+# 
+
+	$files = glob($phpbb_root_path."cache/cal_cache_*.php"); 
+	if ($files)
+    {
+      foreach ( $files as $filename)
+      {
+        @unlink ($filename);
+      }
+    }
+
+
+# 
+#-----[ OPEN ]------------------------------------------ 
+# 
+admin/admin_mass_email.php 
+
+# 
+#-----[ FIND ]------------------------------------------ 
+# 
+      $emailer = new emailer($board_config['smtp_delivery']); 
+
+# 
+#-----[ BEFORE, ADD ]------------------------------------------ 
+# 
+    $sendloops = ceil((count($bcc_list)-1)/500); 
+    $sendstart = 0; 
+    for ($j = 0; $j <= $sendloops; $j++) 
+    { 
+
+# 
+#-----[ FIND ]------------------------------------------ 
+# 
+      for ($i = 0; $i < count($bcc_list); $i++) 
+
+# 
+#-----[ REPLACE WITH ]------------------------------------------ 
+# 
+      for ($i = $sendstart; ($i < count($bcc_list)) && ($i < ($sendstart + 500)); $i++) 
+
+# 
+#-----[ FIND ]------------------------------------------ 
+# 
+      $emailer->reset(); 
+
+# 
+#-----[ AFTER, ADD ]------------------------------------------ 
+# 
+      $sendstart = $sendstart + 500; 
+    } 
+
+
+#
+#-----[ OPEN ]------------------------------------------
+#
+album_mod/album_hierarchy_sql.php
+
+# 
+#-----[ FIND ]------------------------------------------ 
+# 
+function album_get_last_pic_info($cats, &$last_pic_id)
+{
+    global $phpEx, $board_config, $lang, $db, $album_data , $album_config;
+
+# 
+#-----[ AFTER, ADD ]------------------------------------------ 
+# 
+
+	if (empty($cats))
+	{
+		$last_pic_id = 0;
+		return '';
+	}
+
+# 
+#-----[ FIND ]------------------------------------------ 
+# 
+function album_get_last_comment_info($cats)
+{
+    global $phpEx, $board_config, $lang, $db, $album_data;
+
+# 
+#-----[ AFTER, ADD ]------------------------------------------ 
+# 
+    
+	if (empty($cats))
+	{
+		return '';
+	}
+
+#
+#-----[ OPEN ]------------------------------------------
+#
+includes/constants.php
+
+#
+#-----[ FIND ]------------------------------------------
+#
+
+// User Levels <- Do not change the values of USER or ADMIN
+define('DELETED', -1);
+
+#
+#-----[ BEFORE, ADD ]----------------------------------------- 
+#
+// advanced Captcha (GD2 with FreeType Support required)
+define('ADV_CAPTCHA', true); // adv captcha on
+
+#
+#-----[ OPEN ]------------------------------------------
+#
+includes/functions_color_groups.php
+
+#
+#-----[ FIND ]------------------------------------------
+#
+	$cache_dir = $phpbb_root_path . '/cache';
+
+#
+#-----[ REPLACE WITH ]------------------------------------------
+#
+	$cache_dir = $phpbb_root_path . 'cache';
+
+#
+#-----[ OPEN ]------------------------------------------
+#
+includes/functions_calendar.php
+
+#
+#-----[ FIND ]------------------------------------------
+#
+// function select
+function calendar_get_tree_option($cur='')
+
+#
+#-----[ BEFORE, ADD ]------------------------------------------
+#
+function _cal_cache($events, $cache_cal)
+{
+	$cal_ttl = 3600+time();
+	$write_string = '<?php'."
+
+if ( !defined('IN_PHPBB') )
+{
+	die('Hacking attempt');
+}
+
+".'$cal_ttl = '. $cal_ttl .';
+
+$events = array(
+';
+	
+	for ($i=0; $i < count($events); $i++)
+	{
+		// data
+		$write_string .="$i => array(
+'event_id'					=> ". ( ( is_numeric($events[$i]['event_id']) ) ? $events[$i]['event_id'] : "'". addslashes(trim($events[$i]['event_id'])) ."'").",
+'event_author_id'			=> ". ((is_numeric($events[$i]['event_author_id'])) ? $events[$i]['event_author_id'] : "'". addslashes(trim($events[$i]['event_author_id'])) ."'").",
+'event_author'				=> '". addslashes(trim($events[$i]['event_author'])) ."',
+'event_time'				=> ". ((is_numeric($events[$i]['event_time'])) ? $events[$i]['event_time'] : "'". addslashes(trim($events[$i]['event_time'])) ."'").",
+'event_last_author_id'		=> ". ((is_numeric($events[$i]['event_last_author_id'])) ? $events[$i]['event_last_author_id'] : "'". addslashes(trim($events[$i]['event_last_author_id'])) ."'").",
+'event_last_author'			=> '". addslashes(trim($events[$i]['event_last_author'])) ."',
+'event_last_time'			=> ". ((is_numeric($events[$i]['event_last_time'])) ? $events[$i]['event_last_time'] : "'". addslashes(trim($events[$i]['event_last_time'])) ."'").",
+'event_replies'				=> ". ((is_numeric($events[$i]['event_replies'])) ? $events[$i]['event_replies'] : "'". addslashes(trim($events[$i]['event_replies'])) ."'").",
+'event_views'				=> ". ((is_numeric($events[$i]['event_views'])) ? $events[$i]['event_views'] : "'". addslashes(trim($events[$i]['event_views'])) ."'").",
+'event_type'				=> ". ((is_numeric($events[$i]['event_type'])) ? $events[$i]['event_type'] : "'". addslashes(trim($events[$i]['event_type'])) ."'").",
+'event_vote'				=> ". ((is_numeric($events[$i]['event_vote'])) ? $events[$i]['event_vote'] : "'". addslashes(trim($events[$i]['event_vote'])) ."'").",
+'event_status'				=> ". ((is_numeric($events[$i]['event_status'])) ? $events[$i]['event_status'] : "'". addslashes(trim($events[$i]['event_status'])) ."'").",
+'event_moved_id'			=> ". ((is_numeric($events[$i]['event_moved_id'])) ? $events[$i]['event_moved_id'] : "'". addslashes(trim($events[$i]['event_moved_id'])) ."'").",
+'event_last_id'				=> ". ((is_numeric($events[$i]['event_last_id'])) ? $events[$i]['event_last_id'] : "'". addslashes(trim($events[$i]['event_last_id'])) ."'").",
+'event_forum_id'			=> ". ((is_numeric($events[$i]['event_forum_id'])) ? $events[$i]['event_forum_id'] : "'". addslashes(trim($events[$i]['event_forum_id'])) ."'").",
+'event_forum_name'			=> '". addslashes(trim($events[$i]['event_forum_name'])) ."',
+'event_icon'				=> ". ((is_numeric($events[$i]['event_icon'])) ? $events[$i]['event_icon'] : "'". addslashes(trim($events[$i]['event_icon'])) ."'").",
+'event_title'				=> '". addslashes(trim($events[$i]['event_title'])) ."',
+'event_short_title'			=> '". addslashes(trim($events[$i]['event_short_title'])) ."',
+'event_message'				=> '". addslashes(trim($events[$i]['event_message'])) ."',
+'event_calendar_time'		=> ". ((is_numeric($events[$i]['event_calendar_time'])) ? $events[$i]['event_calendar_time'] : "'". addslashes(trim($events[$i]['event_calendar_time'])) ."'").",
+'event_calendar_duration'	=> ". ((is_numeric($events[$i]['event_calendar_duration'])) ? $events[$i]['event_calendar_duration'] : "'". addslashes(trim($events[$i]['event_calendar_duration'])) ."'").",
+'event_link'				=> '". addslashes(trim($events[$i]['event_link'])) ."',
+'event_txt_class'			=> '". addslashes(trim($events[$i]['event_txt_class'])) ."',
+'event_type_icon'			=> '". addslashes(trim($events[$i]['event_type_icon'])) ."'),
+
+";
+		// data
+	}
+	
+	$write_string .= ");\n".'?>';
+	
+	
+	if(@$f = fopen($cache_cal, 'w')) 
+	{ 
+		fwrite($f, $write_string); 
+		fclose($f); 
+		@chmod($cache_cal, 0666); 
+	}
+	return;
+}
+
+
+
+#
+#-----[ FIND ]------------------------------------------
+#
+	// topics
+	get_event_topics($events, $number, $start_date, $end_date, false, 0, -1, $fid);
+
+	// birthday
+//	get_event_PCP_birthday($events, $number, $start_date, $end_date);
+	get_birthday($events, $number, $start_date, $end_date); 
+	
+
+#
+#-----[ REPLACE WITH ]------------------------------------------
+#
+// cache calendar -----------------
+$cache_dir = $phpbb_root_path . 'cache';
+$cal_cache_file_id = '';
+if ($userdata['user_id'] != ANONYMOUS && $userdata['user_level'] != ADMIN)
+{
+	$is_auth = array();
+	$forum_ids = '';
+	$is_auth = auth(AUTH_ALL, AUTH_LIST_ALL, $userdata);
+	while ( list($forum_id, $auth) = each($is_auth) )
+	{
+		if ($auth['auth_read'] && $auth['auth_view'])
+		{
+			$forum_ids .= $forum_id;
+		}
+	}
+	$cal_cache_file_id = md5($forum_ids);
+	unset($forum_ids,$is_auth);
+} else
+	$cal_cache_file_id = $userdata['user_id'];
+	
+$cache_cal = $cache_dir . '/cal_cache_'.$cal_cache_file_id.'.'.$phpEx;
+$cal_ttl = 0;
+
+$use_cache = (is_writable($cache_dir) && defined('CCache') && $nb_days > 0  ) ? true : false;
+
+if ( $use_cache && file_exists($cache_cal) )
+	@include_once($cache_cal);
+
+if ( !$use_cache || $cal_ttl < time() )
+{
+	$events = array();
+	$number = 0;
+// cache calendar -----------------
+
+	// topics
+	get_event_topics($events, $number, $start_date, $end_date, false, 0, -1, $fid);
+
+	// birthday
+//	get_event_PCP_birthday($events, $number, $start_date, $end_date);
+	get_birthday($events, $number, $start_date, $end_date); 
+	
+// cache calendar -----------------
+	if ($use_cache)
+		_cal_cache($events, $cache_cal);
+}
+// cache calendar -----------------
+
+#
+#-----[ FIND ]------------------------------------------
+#
+						'EVENT_TYPE'	=> $events[$ind]['event_type_icon'],
+
+#
+#-----[ REPLACE WITH ]------------------------------------------
+#
+						'EVENT_TYPE'	=> stripslashes($events[$ind]['event_type_icon']),
+
+#
+#-----[ OPEN ]------------------------------------------
+#
+includes/functions_categories_hierarchy.php
+
+#
+#-----[ FIND ]------------------------------------------
+#
+	// moderators
+	@reset($tree['mods']);
+	while ( list($idx, $data) = @each($tree['mods']) )
+	{
+		$s_user_ids = empty($data['user_id']) ? '' : implode(', ', $data['user_id']);
+		$s_group_ids = empty($data['group_id']) ? '' : implode(', ', $data['group_id']);
+		$s_usernames = '';
+		for ( $j = 0; $j < count($data['username']); $j++ )
+		{
+			$s_usernames .= ( empty($s_usernames) ? '' : ', ' ) . sprintf("'%s'", str_replace("'", "\'", $data['username'][$j]));
+		}
+		$s_group_names = '';
+		for ( $j = 0; $j < count($data['group_name']); $j++ )
+		{
+			$s_group_names .= ( empty($s_group_names) ? '' : ', ' ) . sprintf("'%s'", str_replace("'", "\'", $data['group_name'][$j]));
+		}
+		$template->assign_block_vars('mods', array(
+			'IDX'			=> $idx,
+			'USER_IDS'		=> $s_user_ids,
+			'USERNAMES'		=> $s_usernames,
+			'GROUP_IDS'		=> $s_group_ids,
+			'GROUP_NAMES'	=> $s_group_names,
+			)
+		);
+	}
+
+#
+#-----[ REPLACE WITH ]------------------------------------------
+#
+	// moderators
+	@reset($tree['mods']);
+	while ( list($idx, $data) = @each($tree['mods']) )
+	{
+		if ($idx !== '')
+		{
+			$s_user_ids = empty($data['user_id']) ? '' : implode(', ', $data['user_id']);
+			$s_group_ids = empty($data['group_id']) ? '' : implode(', ', $data['group_id']);
+			$s_usernames = '';
+			for ( $j = 0; $j < count($data['username']); $j++ )
+			{
+				$s_usernames .= ( empty($s_usernames) ? '' : ', ' ) . sprintf("'%s'", str_replace("'", "\'", $data['username'][$j]));
+			}
+			$s_group_names = '';
+			for ( $j = 0; $j < count($data['group_name']); $j++ )
+			{
+				$s_group_names .= ( empty($s_group_names) ? '' : ', ' ) . sprintf("'%s'", str_replace("'", "\'", $data['group_name'][$j]));
+			}
+			$template->assign_block_vars('mods', array(
+				'IDX'			=> $idx,
+				'USER_IDS'		=> $s_user_ids,
+				'USERNAMES'		=> $s_usernames,
+				'GROUP_IDS'		=> $s_group_ids,
+				'GROUP_NAMES'	=> $s_group_names,
+				)
+			);
+		} // if $idx
+	}
+
+#
+#-----[ OPEN ]------------------------------------------
+#
+includes/functions_kb.php
+
+#
+#-----[ FIND ]------------------------------------------
+#
+	global $kb_news_sort_method_extra, $kb_news_sort_method, $kb_news_sort_par, $kb_config, $is_admin;
+	
+	$sql = "SELECT t.*, u.username, u.user_id, u.user_rank, u.user_sig, u.user_sig_bbcode_uid, u.user_allowsmile
+			FROM " . KB_ARTICLES_TABLE  . " t, " . USERS_TABLE . " u
+			WHERE ";	
+
+	if ( $id )
+	{
+	    $sql .= " t.article_category_id = " . $id . " AND";
+	}
+	
+//	$sql .= " tt.topic_id = t.topic_id AND";
+
+#
+#-----[ REPLACE WITH ]------------------------------------------
+#
+	global $kb_news_sort_method_extra, $kb_news_sort_method, $kb_news_sort_method_lj, $kb_news_sort_par, $kb_config, $is_admin;
+	
+	$sql = "SELECT t.*, u.username, u.user_id, u.user_rank, u.user_sig, u.user_sig_bbcode_uid, u.user_allowsmile
+			FROM " . KB_ARTICLES_TABLE  . " t, " . USERS_TABLE . " u".(($kb_news_sort_method_lj) ?  ",". TOPICS_TABLE  . " tt" : '')."
+			WHERE ";	
+
+	if ( $id )
+	{
+	    $sql .= " t.article_category_id = " . $id . " AND";
+	}
+	
+	if($kb_news_sort_method_lj)
+	{
+		$sql .= " tt.topic_id = t.topic_id AND";
+	}
+
+#
+#-----[ OPEN ]------------------------------------------
+#
+includes/kb_cat.php
+
+#
+#-----[ FIND ]------------------------------------------
+#
+	$kb_news_sort_par = $kb_config['news_sort_par'];
+	
+	switch( $kb_config['news_sort'] ) 
+	{ 
+	case 'Id': 
+   		$kb_news_sort_method = 't.article_id'; 
+//		$kb_news_sort_method_extra = 't.article_type' . " DESC, " ;
+   		break; 
+	case 'Creation': 
+ 	  	$kb_news_sort_method = 't.article_date'; 
+//		$kb_news_sort_method_extra = 't.article_type' . " DESC, " ;
+  	 	break; 
+	case 'Latest': 
+   		$kb_news_sort_method = 't.topic_last_post_id'; 
+
+#
+#-----[ REPLACE WITH ]------------------------------------------
+#
+	$kb_news_sort_par = $kb_config['news_sort_par'];
+	$kb_news_sort_method_lj = false; 
+	
+	switch( $kb_config['news_sort'] ) 
+	{ 
+	case 'Id': 
+   		$kb_news_sort_method = 't.article_id'; 
+//		$kb_news_sort_method_extra = 't.article_type' . " DESC, " ;
+   		break; 
+	case 'Creation': 
+ 	  	$kb_news_sort_method = 't.article_date'; 
+//		$kb_news_sort_method_extra = 't.article_type' . " DESC, " ;
+  	 	break; 
+	case 'Latest': 
+   		$kb_news_sort_method = 'tt.topic_last_post_id'; 
+   		$kb_news_sort_method_lj = true; 
+
+#
+#-----[ OPEN ]------------------------------------------
+#
+includes/kb_constants.php
+
+#
+#-----[ FIND ]------------------------------------------
+#
+// ---------------------------------------------------------------------START
+// This file defines specific constants for the module
+
+#
+#-----[ BEFORE, ADD ]------------------------------------------
+#
+if ( !defined('IN_PHPBB') )
+{
+	die("Hacking attempt");
+}
+
+#
+#-----[ OPEN ]------------------------------------------
+#
+includes/news_common.php
+
+#
+#-----[ FIND ]------------------------------------------
+#
+define( 'IN_PHPBB', 1 );
+
+#
+#-----[ REPLACE WITH ]------------------------------------------
+#
+//define( 'IN_PHPBB', 1 );
+
+#
+#-----[ OPEN ]--------------------
+#
+includes/usercp_avatar.php
+#
+#-----[ FIND ]--------------------
+#
+	global $phpbb_root_path, $phpEx;
+#
+#-----[ AFTER, ADD ]--------------------
+#
+	global $HTTP_POST_VARS;
+#
+#-----[ FIND ]--------------------
+#
+		$s_hidden_vars .= '<input type="hidden" name="' . $params[$i] . '" value="' . str_replace('"', '&quot;', $$params[$i]) . '" />';
+	}
+#
+#-----[ AFTER, ADD ]--------------------
+#
+	//
+	// Custom Profile Fields MOD
+	//
+	$profile_data = get_fields('WHERE users_can_view = '.ALLOW_VIEW);
+	foreach($profile_data as $field) {
+		$name = text_to_column($field['field_name']);
+		$required = ($field['is_required'] == REQUIRED) ? true : false;
+		$checkbox_tally = count($HTTP_POST_VARS[$name]);
+		if (($field['field_type'] == CHECKBOX) && ($checkbox_tally > 1)) {
+			foreach ($HTTP_POST_VARS[$name] as $checkbox_value) {
+				$checkbox_value = stripslashes($checkbox_value);
+				$s_hidden_vars .= '<input type="hidden" name="' . $name . '[]" value="' . str_replace('"', '&quot;', $checkbox_value) . '" />';
+			}
+		}
+		else {
+			$value = $HTTP_POST_VARS[$name];
+			$value = stripslashes($value);
+			$s_hidden_vars .= "<input type=\"hidden\" name=\"$name\" value=\"" . str_replace('"', '&quot;', $value) . "\" />";
+		}
+	}
+	//
+	// END Custom Profile Fields MOD
+	//
+
+#
+#-----[ OPEN ]------------------------------------------
+#
+includes/usercp_register.php
+
+#
+#-----[ FIND ]------------------------------------------
+#
+$error_msg = '';
+
+#
+#-----[ AFTER, ADD ]------------------------------------------
+#
+$profile_data = array();
+
+#
+#-----[ FIND ]------------------------------------------
+#
+		$required = $fields['is_required'] == REQUIRED ? true : false;
+		
+		$temp = $HTTP_POST_VARS[$name];
+
+#
+#-----[ REPLACE WITH ]------------------------------------------
+#
+		$required = ($fields['is_required'] == REQUIRED) ? true : false;
+		
+		$temp = '';
+		$temp = $HTTP_POST_VARS[$name];
+
+#
+#-----[ FIND ]------------------------------------------
+#
+			  $profile_data = get_fields('WHERE users_can_view = '.ALLOW_VIEW);
+			  $profile_names = array();
+			  
+			  $sql2_tmp = '';
+			  foreach($profile_data as $fields)
+			  {
+				$name = text_to_column($fields['field_name']);
+				$type = $fields['field_type'];
+				$required = $fields['is_required'] == REQUIRED ? true : false;
+				
+				if(isset($HTTP_POST_VARS[$name]))
+				{
+				  $temp = $HTTP_POST_VARS[$name];
+				  if($type == CHECKBOX)
+				  {
+					$temp2 = '';
+					if ($temp) 
+						foreach($temp as $temp3)
+						  $temp2 .= htmlspecialchars($temp3) . ',';
+					$temp2 = substr($temp2,0,strlen($temp2)-1);
+					$temp = $temp2;
+				  }
+				  else
+					$temp = is_numeric($temp) ? intval($temp) : htmlspecialchars($temp);
+				  $profile_names[$name] = $temp;
+				  
+				  $sql2_tmp .= $name . " = '".str_replace("\'","''",$profile_names[$name])."', ";
+				
+				}
+			  }
+			 if ( !empty($sql2_tmp) )
+
+#
+#-----[ REPLACE WITH ]------------------------------------------
+#
+			  if (empty($profile_data))
+			  	$profile_data = get_fields('WHERE users_can_view = '.ALLOW_VIEW);
+			  $profile_names = array();
+			  
+			  $sql2_tmp = '';
+			  foreach($profile_data as $fields)
+			  {
+				$name = text_to_column($fields['field_name']);
+				$type = $fields['field_type'];
+				$required = ($fields['is_required'] == REQUIRED) ? true : false;
+				
+				$temp = '';
+				if(isset($HTTP_POST_VARS[$name]))
+				{
+				  $temp = $HTTP_POST_VARS[$name];
+				  if($type == CHECKBOX)
+				  {
+					$temp2 = '';
+					if ($temp) 
+						foreach($temp as $temp3)
+						  $temp2 .= htmlspecialchars($temp3) . ',';
+					$temp2 = substr($temp2,0,strlen($temp2)-1);
+					$temp = $temp2;
+				  }
+				  else
+					$temp = is_numeric($temp) ? intval($temp) : htmlspecialchars($temp);
+				  $profile_names[$name] = $temp;
+				  
+				  $sql2_tmp .= $name . " = '".str_replace("\'","''",$profile_names[$name])."', ";
+				
+					if($required && empty($profile_names[$name]))
+					{
+					  $error = TRUE;
+							$error_msg .= ( ( isset($error_msg) ) ? '<br />' : '' ) . $lang['Fields_empty'];
+					}
+				}
+			  }
+			 if ( !empty($sql2_tmp) )
+
+#
+#-----[ FIND ]------------------------------------------
+#
+			if ( $coppa )
+			{
+				$message = $lang['COPPA'];
+				$email_template = 'coppa_welcome_inactive';
+
+#
+#-----[ BEFORE, ADD ]------------------------------------------
+#
+			//
+			// Custom Profile Fields MOD
+			//
+			  if (empty($profile_data))
+			  	$profile_data = get_fields('WHERE users_can_view = '.ALLOW_VIEW);
+			  $profile_names = array();
+			  
+			  $sql2_tmp = '';
+			  foreach($profile_data as $fields)
+			  {
+				$name = text_to_column($fields['field_name']);
+				$type = $fields['field_type'];
+				$required = ($fields['is_required'] == REQUIRED) ? true : false;
+				
+				$temp = '';
+				if(isset($HTTP_POST_VARS[$name]))
+				{
+				  $temp = $HTTP_POST_VARS[$name];
+				  if($type == CHECKBOX)
+				  {
+					$temp2 = '';
+					if ($temp) 
+						foreach($temp as $temp3)
+						  $temp2 .= htmlspecialchars($temp3) . ',';
+					$temp2 = substr($temp2,0,strlen($temp2)-1);
+					$temp = $temp2;
+				  }
+				  else
+					$temp = is_numeric($temp) ? intval($temp) : htmlspecialchars($temp);
+				  $profile_names[$name] = $temp;
+				  
+				  $sql2_tmp .= $name . " = '".str_replace("\'","''",$profile_names[$name])."', ";
+				
+					if($required && empty($profile_names[$name]))
+					{
+					  $error = TRUE;
+							$error_msg .= ( ( isset($error_msg) ) ? '<br />' : '' ) . $lang['Fields_empty'];
+					}
+				}
+			  }
+			 if ( !empty($sql2_tmp) )
+			 {
+			  $sql2_tmp = substr($sql2_tmp,0,strlen($sql2_tmp)-2);
+			  $sql2 = "UPDATE " . USERS_TABLE . "
+				  SET ".$sql2_tmp."
+				WHERE user_id = ".$user_id;
+			  
+			  if(!$db->sql_query($sql2))
+					message_die(GENERAL_ERROR,'Could not insert(update) custom profile fields','',__LINE__,__FILE__,$sql2);
+			 }
+			//
+			// END Custom Profile Fields MOD
+			//
+
+
+#
+#-----[ FIND ]------------------------------------------
+#
+	  //
+	  // Custom Profile Fields MOD
+	  //
+	  $profile_data = get_fields('WHERE users_can_view = '.ALLOW_VIEW);
+	  
+	  if(count($profile_data) > 0)
+		$template->assign_block_vars('switch_custom_fields',array(
+		  'L_CUSTOM_FIELD_NOTICE' => $lang['custom_field_notice']
+		  ));
+	  
+	  foreach($profile_data as $field)
+	  {
+		$field_name = $field['field_name'];
+		$name = text_to_column($field_name);
+		
+		if($field['is_required'] == REQUIRED)
+		  $required = true;
+		
+		switch($field['field_type'])
+		{
+		  case TEXT_FIELD:
+			$value = $userdata[$name];
+			$length = $field['text_field_maxlen'];
+			$field_html_code = "<input type=\"text\" class=\"post\" style=\"width: 200px\"  name=\"$name\" size=\"35\" maxlength=\"$length\" value=\"$value\" />";
+			break;
+		  case TEXTAREA:
+			$value = $userdata[$name];
+			$field_html_code = "<textarea name=\"$name\" style=\"width: 300px\" rows=\"6\" cols=\"30\" class=\"post\">$value</textarea>";
+			break;
+		  case RADIO:
+			$value = $userdata[$name];
+			$radio_list = explode(',',$field['radio_button_values']);
+			$html_list = array();
+			foreach($radio_list as $num => $radio_name)
+			{
+			  $temp = "<input type=\"radio\" name=\"$name\" value=\"$radio_name\"";
+			  if($radio_name == $value)
+				$temp .= ' checked="checked"';
+			  $temp .= " /> <span class=\"gen\">$radio_name</span>";
+			  if($num < count($radio_list))
+				$temp .= '<br />';
+			  $html_list[] = $temp;
+			}
+			$field_html_code = '';
+			foreach($html_list as $line)
+			  $field_html_code .= $line . "\n";
+			break;
+		  case CHECKBOX:
+			$value_array = explode(',',$userdata[$name]);
+			$check_list = explode(',',$field['checkbox_values']);
+			$html_list = array();
+			foreach($check_list as $num => $check_name)
+			{
+			  $temp = "<input type=\"checkbox\" name=\"{$name}[]\" value=\"$check_name\"";
+			  foreach($value_array as $val)
+				if($val == $check_name)
+				{
+				  $temp .= ' checked="checked"';
+				  break;
+				}
+			  $temp .= " /> <span class=\"gen\">$check_name</span>";
+			  if($num < count($check_list))
+				$temp .= '<br />';
+			  $html_list[] = $temp;
+			}
+			$field_html_code = '';
+			foreach($html_list as $line)
+			  $field_html_code .= $line . "\n";
+			break;
+		}
+		
+		$template->assign_block_vars('custom_fields',array(
+		  'NAME' => $field_name,
+		  'FIELD' => $field_html_code,
+		  'REQUIRED' => $required ? ' *' : ''
+		  ));
+		
+		if($field['field_description'] != NULL && !empty($field['field_description']))
+		  $template->assign_block_vars('custom_fields.switch_description',array(
+			'DESCRIPTION' => $field['field_description']));
+	  }
+		//
+	  // END Custom Profile Fields MOD
+	  //
+
+#
+#-----[ REPLACE WITH ]------------------------------------------
+#
+	  //
+	  // Custom Profile Fields MOD
+	  //
+	  if (empty($profile_data))
+	  	$profile_data = get_fields('WHERE users_can_view = '.ALLOW_VIEW);
+	  
+	  if(count($profile_data) > 0)
+		$template->assign_block_vars('switch_custom_fields',array(
+		  'L_CUSTOM_FIELD_NOTICE' => $lang['custom_field_notice']
+		  ));
+	  
+	  foreach($profile_data as $field)
+	  {
+		$field_name = $field['field_name'];
+		$name = text_to_column($field_name);
+		
+		$required = ($field['is_required'] == REQUIRED) ? ' *' : '';
+		
+		switch($field['field_type'])
+		{
+		  case TEXT_FIELD:
+			$value = (empty($HTTP_POST_VARS[$name])) ? $userdata[$name] : stripslashes($HTTP_POST_VARS[$name]);
+			$length = $field['text_field_maxlen'];
+			$field_html_code = "<input type=\"text\" class=\"post\" style=\"width: 200px\"  name=\"$name\" size=\"35\" maxlength=\"$length\" value=\"$value\" />";
+			break;
+		  case TEXTAREA:
+			$value = (empty($HTTP_POST_VARS[$name])) ? $userdata[$name] : stripslashes($HTTP_POST_VARS[$name]);
+			$field_html_code = "<textarea name=\"$name\" style=\"width: 300px\" rows=\"6\" cols=\"30\" class=\"post\">$value</textarea>";
+			break;
+		  case RADIO:
+			$value = (empty($HTTP_POST_VARS[$name])) ? $userdata[$name] : stripslashes($HTTP_POST_VARS[$name]);
+			$radio_list = explode(',',$field['radio_button_values']);
+			$html_list = array();
+			foreach($radio_list as $num => $radio_name)
+			{
+			  $temp = "<input type=\"radio\" name=\"$name\" value=\"$radio_name\"";
+			  if($radio_name == $value)
+				$temp .= ' checked="checked"';
+			  $temp .= " /> <span class=\"gen\">$radio_name</span>";
+			  if($num < count($radio_list))
+				$temp .= '<br />';
+			  $html_list[] = $temp;
+			}
+			$field_html_code = '';
+			foreach($html_list as $line)
+			  $field_html_code .= $line . "\n";
+			break;
+		  case CHECKBOX:
+			$value_array = (empty($HTTP_POST_VARS[$name])) ? explode(',',$userdata[$name]) : $HTTP_POST_VARS[$name];
+			$check_list = explode(',',$field['checkbox_values']);
+			$html_list = array();
+			foreach($check_list as $num => $check_name)
+			{
+			  $temp = "<input type=\"checkbox\" name=\"{$name}[]\" value=\"$check_name\"";
+			  foreach($value_array as $val)
+				if($val == $check_name)
+				{
+				  $temp .= ' checked="checked"';
+				  break;
+				}
+			  $temp .= " /> <span class=\"gen\">$check_name</span>";
+			  if($num < count($check_list))
+				$temp .= '<br />';
+			  $html_list[] = $temp;
+			}
+			$field_html_code = '';
+			foreach($html_list as $line)
+			  $field_html_code .= $line . "\n";
+			break;
+		}
+		
+		$template->assign_block_vars('custom_fields',array(
+		  'NAME' => $field_name,
+		  'FIELD' => $field_html_code,
+		  'REQUIRED' => $required)
+		  );
+		
+		if($field['field_description'] != NULL && !empty($field['field_description']))
+		  $template->assign_block_vars('custom_fields.switch_description',array(
+			'DESCRIPTION' => $field['field_description']));
+	  }
+		//
+	  // END Custom Profile Fields MOD
+	  //
+
+#
+#-----[ OPEN ]------------------------------------------
+#
+language/lang_english/lang_admin.php
+
+#
+#-----[ FIND ]------------------------------------------
+#
+//
+// That's all Folks!
+// -------------------------------------------------
+
+#
+#-----[ BEFORE, ADD ]------------------------------------------
+#
+//Added for Folder Permission Check in Admin Panel
+$lang['Permission_Check'] = '<u>Checking Permission:</u><br /><br />The following Permissions are not set correctly:';
+$lang['File_not_writable_666'] = '<font color="red"><b>is not writable !</b> [change permission to 666]</font>';
+$lang['File_not_writable_777'] = '<font color="red"><b>is not writable !</b> [change permission to 777]</font>';
+
+#
+#-----[ OPEN ]------------------------------------------
+#
+language/lang_german/lang_admin.php
+
+#
+#-----[ FIND ]------------------------------------------
+#
+// That's all Folks!
+// Na Gott sei Dank!
+// -------------------------------------------------
+
+#
+#-----[ BEFORE, ADD ]------------------------------------------
+#
+//Added for Folder Permission Check in Admin Panel
+$lang['Permission_Check'] = '<u>Überprüfe Verzeichnisrechte:</u><br /><br />Die Verzeichnisrechte folgender Dateien/Ordner sind nicht korrekt eingestellt:';
+$lang['File_not_writable_666'] = '<font color="red"><b>ist nicht beschreibbar !</b> [CHMOD 666 setzen]</font>';
+$lang['File_not_writable_777'] = '<font color="red"><b>ist nicht beschreibbar !</b> [CHMOD 777 setzen]</font>';
+#
+#-----[ OPEN ]------------------------------------------
+#
+language/lang_english/lang_admin_captcha.php
+
+#
+#-----[ FIND ]------------------------------------------
+#
+$lang['VC_active'] = 'Visual Confirmation is activ!';
+$lang['VC_inactive'] = 'Visual Confirmation is not activ!';
+
+#
+#-----[ REPLACE WITH ]------------------------------------------
+#
+$lang['VC_active'] = 'Visual Confirmation is active!'; 
+$lang['VC_inactive'] = 'Visual Confirmation is not active!';
+
+#
+#-----[ FIND ]------------------------------------------
+#
+$lang['random_font_per_letter_explain'] = 'Each letter uses an random font.';
+
+#
+#-----[ REPLACE WITH ]------------------------------------------
+#
+$lang['random_font_per_letter_explain'] = 'Each letter uses a random font.';
+
+#
+#-----[ FIND ]------------------------------------------
+#
+$lang['foreground_lattice_color'] = 'Littice color';
+
+#
+#-----[ REPLACE WITH ]------------------------------------------
+#
+$lang['foreground_lattice_color'] = 'Lattice color';
+
+#
+#-----[ OPEN ]------------------------------------------
+#
+pafiledb/includes/pafiledb_constants.php
+
+#
+#-----[ FIND ]------------------------------------------
+#
+ 
+// define('PAFILEDB_DEBUG', 0);		// Pafiledb Mod Debugging off
+
+#
+#-----[ BEFORE, ADD ]------------------------------------------
+#
+if ( !defined('IN_PHPBB') )
+{
+	die("Hacking attempt");
+}
+
+#
+#-----[ OPEN ]------------------------------------------
+#
+templates/fisubsilversh/memberlist_body.tpl
+
+#
+#-----[ FIND ]------------------------------------------
+#
+<!-- Custom Profile Fields MOD start <=>
+  -- Original code: <td class="cat" colspan="11"> -->
+
+#
+#-----[ REPLACE WITH ]------------------------------------------
+#
+<!-- 
+Custom Profile Fields MOD start <> 
+Original code: <td class="cat" colspan="11"> 
+// -->
+
+#
+#-----[ OPEN ]------------------------------------------
+#
+templates/fisubsilversh/profil_add_body.tpl
+
+#
+#-----[ FIND ]------------------------------------------
+#
+<tr id="post_username_error_tbl" style="display:none;">
+<td class="row1">&nbsp;</td>
+<td class="row2"><span class="gen" id="post_username_error_text">&nbsp;</span></td>
+</tr>
+<!-- END switch_namechange_disallowed -->
+<!-- BEGIN switch_namechange_allowed -->
+<tr>
+<td class="row1" width="38%"><span class="explaintitle">{L_USERNAME}:</span> *</td>
+<td class="row2" width="62%">
+<input type="text" class="post" style="width:200px" name="username" size="25" maxlength="25" value="{USERNAME}" onblur="AJAXCheckPostUsername(this.value);" />
+</td>
+
+#
+#-----[ REPLACE WITH ]------------------------------------------
+#
+<!-- END switch_namechange_disallowed -->
+<!-- BEGIN switch_namechange_allowed -->
+<tr>
+<td class="row1" width="38%"><span class="explaintitle">{L_USERNAME}:</span> *</td>
+<td class="row2" width="62%">
+<input type="text" class="post" style="width:200px" name="username" size="25" maxlength="25" value="{USERNAME}" onblur="AJAXCheckPostUsername(this.value);" />
+</td>
+</tr>
+<tr id="post_username_error_tbl" style="display:none;">
+<td class="row1">&nbsp;</td>
+<td class="row2"><span class="gen" id="post_username_error_text">&nbsp;</span></td>
+
+#
+#-----[ OPEN ]------------------------------------------
+#
+templates/fisubsilversh/viewforum_body.tpl
+
+#
+#-----[ FIND ]------------------------------------------
+#
+  <input type="hidden" name="search_forum" value="{FORUM_ID}">
+
+#
+#-----[ REPLACE WITH ]------------------------------------------
+#
+  <input type="hidden" name="search_where" value="f{FORUM_ID}">
+
+#
+#-----[ EXECUTE ]------------------------------------------
+#
+  
+Please Execute now the commands from the File "Part2_update_AJAX_100_to_104_phpBBplus153_only.txt"
+
+#
+#-----[ SAVE/CLOSE ALL FILES ]------------------------------------------
+#
+# EoM
