@@ -1,3 +1,4 @@
 - Fix Album mod on recent PHP versions
-- Fix pafiledb mod on recent PHP versions
+- Fix pafiledb mod / dload.php on recent PHP versions
 - Fix statistics admin
+- Fix use of get_magic_quotes_gpc (removed in recent PHP)
